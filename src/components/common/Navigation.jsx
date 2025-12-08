@@ -10,6 +10,7 @@ const Navigation = ({ activeSection, className = '', onItemClick }) => {
     { id: 'about', label: 'About', sections: ['about'] },
     { id: 'skills', label: 'Skills', sections: ['skills', 'tech-stack'] },
     { id: 'projects', label: 'Projects', sections: ['projects', 'github-stats'] },
+    { id: 'certificates', label: 'Certificates', sections: ['certificates'] },
     { id: 'contact', label: 'Contact', sections: ['contact'] },
   ];
 

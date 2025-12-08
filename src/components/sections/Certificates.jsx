@@ -5,7 +5,7 @@ import CertificateModal from '../ui/CertificateModal'
 import { certificates } from '../../data/certificates'
 
 const CertificateCard = ({ certificate, index, onViewClick }) => {
-  
+
 
   return (
     <motion.div
@@ -13,14 +13,14 @@ const CertificateCard = ({ certificate, index, onViewClick }) => {
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ 
-        duration: 0.5, 
+      transition={{
+        duration: 0.5,
         delay: index * 0.1,
         type: "spring",
         stiffness: 100
       }}
       whileHover={{ y: -8 }}
-      
+
     >
       <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-highlight/0 group-hover:from-accent/5 group-hover:to-highlight/5 transition-all duration-500" />
 
@@ -28,7 +28,7 @@ const CertificateCard = ({ certificate, index, onViewClick }) => {
 
       <div className="relative z-10 flex-grow">
         <div className="flex items-start justify-between mb-4">
-          <motion.div 
+          <motion.div
             className="text-5xl"
             whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
             transition={{ duration: 0.5 }}
@@ -118,9 +118,9 @@ const Certificates = () => {
 
           <div className="grid md:grid-cols-2 gap-6">
             {certificates.map((cert, index) => (
-              <CertificateCard 
-                key={index} 
-                certificate={cert} 
+              <CertificateCard
+                key={index}
+                certificate={cert}
                 index={index}
                 onViewClick={handleViewClick}
               />
