@@ -13,7 +13,7 @@ const Skills = () => {
       case 'AI/ML': return 'from-accent to-accent';
       case 'Data Science': return 'from-green-400 to-green-600';
       case 'IoT & Embedded': return 'from-teal-400 to-teal-600';
-      case 'Web Development': return 'from-orange-400 to-orange-600';
+      case 'Web Development': return 'from-accent to-highlight';
       case 'Tools': return 'from-gray-400 to-gray-600';
       default: return 'from-accent to-highlight';
     }
@@ -225,8 +225,8 @@ const Skills = () => {
               key={category}
               onClick={() => setSelectedCategory(category)}
               className={`px-6 py-3 rounded-lg transition-all font-semibold ${selectedCategory === category
-                  ? 'bg-accent text-surface shadow-lg shadow-[0_0_40px_var(--accent-40)]'
-                  : 'bg-surface dark:bg-surface text-black text-text-primary hover:bg-accent/30'
+                ? 'bg-accent text-surface shadow-lg shadow-[0_0_40px_var(--accent-40)]'
+                : 'bg-surface dark:bg-surface text-black text-text-primary hover:bg-accent/30'
                 }`}
             >
               {category}
