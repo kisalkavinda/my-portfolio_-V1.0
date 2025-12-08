@@ -69,7 +69,7 @@ const CertificateCard = ({ certificate, index, onViewClick }) => {
       <div className="flex gap-2 mt-auto z-20">
         <motion.button
           onClick={() => onViewClick(certificate)}
-          className="flex-1 inline-flex items-center justify-center gap-2 text-[#00d9ff] hover:text-[#4dfffe] font-semibold py-2 px-4 bg-[#00d9ff]/10 hover:bg-[#00d9ff]/20 rounded-lg transition-all"
+          className="flex-1 inline-flex items-center justify-center gap-2 text-[#00d9ff] hover:text-[#4dfffe] font-semibold py-2 px-4 bg-[#00d9ff]/10 hover:bg-[#00d9ff]/20 rounded-xl transition-all"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >

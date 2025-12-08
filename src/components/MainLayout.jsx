@@ -18,12 +18,13 @@ import SocialLinks from './common/SocialLinks';
 import ScrollProgress from './common/ScrollProgress';
 import ChatbotAssistant from './common/ChatbotAssistant';
 import Preloader from './common/Preloader';
+import BackToTop from './common/BackToTop';
 
 const MainLayout = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isChatbotOpen, setIsChatbotOpen] = useState(false);
   const [isSocialLinksOpen, setIsSocialLinksOpen] = useState(false);
-  
+
   useEffect(() => {
     // Simulate loading time
     const timer = setTimeout(() => {
@@ -38,12 +39,12 @@ const MainLayout = () => {
       <AnimatePresence>
         {isLoading && <Preloader />}
       </AnimatePresence>
-      
+
       {!isLoading && (
         <>
           <DigitalRainBackground />
           <CursorTrail />
-          
+
           <ScrollProgress />
           <Header />
           <main className="w-full relative z-10">
@@ -59,16 +60,17 @@ const MainLayout = () => {
             <Contact />
           </main>
           <Footer />
-          <SocialLinks 
-            isSocialLinksOpen={isSocialLinksOpen} 
-            setIsSocialLinksOpen={setIsSocialLinksOpen} 
+          <SocialLinks
+            isSocialLinksOpen={isSocialLinksOpen}
+            setIsSocialLinksOpen={setIsSocialLinksOpen}
             setIsChatbotOpen={setIsChatbotOpen}
           />
-          <ChatbotAssistant 
-            isChatbotOpen={isChatbotOpen} 
-            setIsChatbotOpen={setIsChatbotOpen} 
+          <ChatbotAssistant
+            isChatbotOpen={isChatbotOpen}
+            setIsChatbotOpen={setIsChatbotOpen}
             setIsSocialLinksOpen={setIsSocialLinksOpen}
           />
+          <BackToTop />
         </>
       )}
     </>

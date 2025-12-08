@@ -28,6 +28,11 @@ export default {
       maxWidth: {
         '8xl': '88rem',
       },
+      boxShadow: {
+        'glow-sm': '0 0 20px rgba(0, 217, 255, 0.3)',
+        'glow-md': '0 0 30px rgba(0, 217, 255, 0.4)',
+        'glow-lg': '0 0 40px rgba(0, 217, 255, 0.5)',
+      },
       animation: {
         'gradient': 'gradient 3s ease infinite',
         'float': 'float 6s ease-in-out infinite',
