@@ -83,6 +83,10 @@ const CertificateCard = ({ certificate, index, onViewClick }) => {
 
 const Certificates = () => {
   const [selectedCertificate, setSelectedCertificate] = useState(null)
+  const [showAll, setShowAll] = useState(false)
+
+  const displayedCertificates = showAll ? certificates : certificates.slice(0, 4)
+  const hasMore = certificates.length > 4
 
   const handleViewClick = (certificate) => {
     setSelectedCertificate(certificate);
@@ -117,7 +121,7 @@ const Certificates = () => {
           </motion.div>
 
           <div className="grid md:grid-cols-2 gap-6">
-            {certificates.map((cert, index) => (
+            {displayedCertificates.map((cert, index) => (
               <CertificateCard
                 key={index}
                 certificate={cert}
@@ -126,6 +130,40 @@ const Certificates = () => {
               />
             ))}
           </div>
+
+          {/* Show More/Less Button */}
+          {hasMore && (
+            <motion.div
+              className="flex justify-center mt-12"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+            >
+              <motion.button
+                onClick={() => setShowAll(!showAll)}
+                className="group flex items-center gap-3 px-8 py-4 bg-accent/10 hover:bg-accent/20 border-2 border-accent/40 hover:border-accent/60 rounded-xl font-semibold text-accent transition-all"
+                whileHover={{ scale: 1.05, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span>{showAll ? 'Show Less' : 'Show More Certificates'}</span>
+                <motion.svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  animate={{ rotate: showAll ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </motion.svg>
+              </motion.button>
+            </motion.div>
+          )}
         </div>
       </section>
 

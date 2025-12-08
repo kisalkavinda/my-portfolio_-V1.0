@@ -36,7 +36,7 @@ Here are some suggestions for upgrading your website, categorized for clarity an
 
 ### **7. Code Quality/Maintainability:**
 
-*   **TypeScript Migration:** Migrating your JavaScript codebase to TypeScript can significantly improve type safety, reduce runtime errors, and enhance the maintainability of your project, especially as it grows.
+
 *   **Unit/Integration Tests:** Implement a testing framework (e.g., Jest with React Testing Library) to write unit and integration tests. This ensures code reliability, prevents regressions, and facilitates future refactoring.
 *   **Consistent Styling Approach:** Review and standardize your styling approach. Ensure a consistent methodology whether you're using Tailwind CSS classes, custom CSS, or CSS-in-JS solutions.
 

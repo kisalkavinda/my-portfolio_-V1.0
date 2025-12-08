@@ -7,17 +7,17 @@ const Spark = ({ x, y, _id, color }) => {
   return (
     <motion.div
       className="absolute rounded-full pointer-events-none"
-      initial={{ 
-        x: x, 
-        y: y, 
-        scale: 0.1, 
-        opacity: 1, 
+      initial={{
+        x: x,
+        y: y,
+        scale: 0.1,
+        opacity: 1,
         backgroundColor: color,
         boxShadow: `0 0 5px ${color}, 0 0 10px ${color}`
       }}
-      animate={{ 
-        scale: [0.1, 1, 0], 
-        opacity: [1, 0.5, 0], 
+      animate={{
+        scale: [0.1, 1, 0],
+        opacity: [1, 0.5, 0],
         x: [x, x + (Math.random() - 0.5) * 50],
         y: [y, y + (Math.random() - 0.5) * 50]
       }}
@@ -82,7 +82,30 @@ const CircuitPattern = ({ _isHovered }) => {
 const ProjectCard = ({ project, index, onViewDetails }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [sparks, setSparks] = useState([]);
-  const sparkIdCounter = useRef(0); // Add a ref for a unique ID counter
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const sparkIdCounter = useRef(0);
+  const cardRef = useRef(null);
+
+  // Mouse tracking for 3D tilt and magnetic effect
+  const handleMouseMove = (e) => {
+    if (!cardRef.current) return;
+
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    setMousePosition({
+      x: (x - centerX) / centerX,
+      y: (y - centerY) / centerY
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setMousePosition({ x: 0, y: 0 });
+  };
+
 
   const handleSpark = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -102,40 +125,45 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
 
   return (
     <motion.div
+      ref={cardRef}
       className="group relative rounded-xl overflow-hidden border-2 border-accent/40 transition-all duration-300 backdrop-blur-sm min-h-[25rem]"
       initial={{ opacity: 0, y: 50, rotateX: 0, rotateY: 0, boxShadow: "0px 0px 0px rgba(0,0,0,0)" }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-100px" }}
-      transition={{ 
-        duration: 0.5, 
+      transition={{
+        duration: 0.5,
         delay: index * 0.1,
         type: "spring",
         stiffness: 100
       }}
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
-      whileHover={{
-        scale: 1.03,
-        rotateX: 2,
-        rotateY: 2,
-        boxShadow: "0 10px 30px var(--accent-60)",
-        transition: {
-          type: "spring",
-          stiffness: 200,
-          damping: 10
-        }
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      animate={{
+        rotateX: isHovered ? mousePosition.y * 5 : 0,
+        rotateY: isHovered ? mousePosition.x * 5 : 0,
+        x: isHovered ? mousePosition.x * 10 : 0,
+        y: isHovered ? mousePosition.y * 10 : 0,
+        scale: isHovered ? 1.05 : 1,
       }}
       style={{
-        transformPerspective: '1000px', // Establishes the 3D perspective
+        transformPerspective: '1000px',
+        transformStyle: 'preserve-3d',
+        boxShadow: isHovered
+          ? `0 20px 60px var(--accent-60), 0 0 40px var(--accent-40)`
+          : '0px 0px 0px rgba(0,0,0,0)'
       }}
     >
 
-      
+
       {/* Background and Inner Content */}
-      <div className="relative bg-[#0a0a0a] dark:bg-[#0a0a0a]/50 rounded-xl h-full w-full flex flex-col">        {/* Background Effects */}
+      <div className="relative bg-[#0a0a0a]/80 dark:bg-[#0a0a0a]/50 backdrop-blur-xl rounded-xl h-full w-full flex flex-col" style={{
+        background: isHovered ? 'linear-gradient(135deg, rgba(10,10,10,0.7) 0%, rgba(0,217,255,0.05) 100%)' : undefined
+      }}>        {/* Background Effects */}
         <DataFlowAnimation isHovered={isHovered} />
         <CircuitPattern isHovered={isHovered} />
-        
+
 
 
         {/* Project Image/Icon */}
@@ -144,15 +172,15 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
         >
-            <motion.div
-              animate={isHovered ? { rotate: 360 } : { rotate: 0 }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            >
-              {project.image}
-            </motion.div>
-          
+          <motion.div
+            animate={isHovered ? { rotate: 360 } : { rotate: 0 }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+          >
+            {project.image}
+          </motion.div>
+
           {/* Corner Accent */}
-          <motion.div 
+          <motion.div
             className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-accent to-transparent opacity-0 group-hover:opacity-30"
             initial={{ scale: 0, rotate: 0 }}
             whileHover={{ scale: 1, rotate: 45 }}
@@ -163,7 +191,7 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
         <div className="relative p-6 flex flex-col flex-grow">
           {/* Title and Badge */}
           <div className="flex items-center justify-between mb-3">
-            <motion.h3 
+            <motion.h3
               className="text-xl font-bold"
               initial={{ x: -20, opacity: 0 }}
               whileInView={{ x: 0, opacity: 1 }}
@@ -172,7 +200,7 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
               {project.title}
             </motion.h3>
             {project.featured && (
-              <motion.span 
+              <motion.span
                 className="px-2 py-1 text-xs bg-accent text-surface rounded-full flex items-center gap-1"
                 initial={{ scale: 0 }}
                 whileInView={{ scale: 1 }}
@@ -186,7 +214,7 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
           </div>
 
           {/* Description */}
-          <motion.p 
+          <motion.p
             className="text-gray-700 dark:text-gray-300 mb-4 text-sm leading-relaxed flex-grow"
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -194,19 +222,19 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
           >
             {project.description}
           </motion.p>
-          
+
           {/* Technologies */}
           <div className="flex flex-wrap gap-2 mb-4 flex-grow-0">
             {project.technologies.map((tech, i) => (
-              <motion.span 
+              <motion.span
                 key={`${project.id}-${tech}`}
                 className="px-2 py-1 text-xs bg-surface/20 dark:bg-surface/50 rounded-md text-gray-600 dark:text-gray-400 border border-accent/0 hover:border-accent/30 transition-colors cursor-default"
                 initial={{ opacity: 0, scale: 0 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 + 0.4 + i * 0.05 }}
-                whileHover={{ 
-                  scale: 1.1, 
+                whileHover={{
+                  scale: 1.1,
                   y: -2,
                   backgroundColor: 'rgba(0, 229, 255, 0.5)'
                 }}
@@ -215,9 +243,9 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
               </motion.span>
             ))}
           </div>
-          
+
           {/* Action Buttons */}
-          <motion.div 
+          <motion.div
             className="flex gap-3 mt-auto"
             initial={{ y: 20, opacity: 0 }}
             whileInView={{ y: 0, opacity: 1 }}
@@ -240,9 +268,9 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
                 ))}
               </AnimatePresence>
             </motion.button>
-            <motion.a 
-              href={project.github} 
-              target="_blank" 
+            <motion.a
+              href={project.github}
+              target="_blank"
               rel="noopener noreferrer"
               className="group/btn flex items-center gap-2 px-4 py-2 bg-[#0a0a0a] hover:bg-[#0a0a0a] rounded-lg text-sm transition-all flex-1 justify-center relative overflow-hidden"
               whileHover={{ scale: 1.05 }}
@@ -251,7 +279,7 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
             >
               <Github size={16} className="relative z-10 group-hover/btn:rotate-12 transition-transform" />
               <span className="relative z-10">Code</span>
-              <motion.div 
+              <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a] to-[#0a0a0a]"
                 initial={{ x: "-100%" }}
                 whileHover={{ x: 0 }}
@@ -263,7 +291,7 @@ const ProjectCard = ({ project, index, onViewDetails }) => {
                 ))}
               </AnimatePresence>
             </motion.a>
-            
+
           </motion.div>
         </div>
       </div>

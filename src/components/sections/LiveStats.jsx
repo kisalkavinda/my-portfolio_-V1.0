@@ -15,41 +15,41 @@ const LiveStats = () => {
   const fetchGitHubData = async () => {
     try {
       setLoading(true)
-      
+
       // Fetch user data
       const userResponse = await fetch(`https://api.github.com/users/${githubUsername}`)
-      
+
       if (!userResponse.ok) {
         throw new Error('Failed to fetch user data')
       }
-      
+
       const userData = await userResponse.json()
-      
+
       // Fetch repos data
       const reposResponse = await fetch(`https://api.github.com/users/${githubUsername}/repos?sort=updated&per_page=100`)
-      
+
       if (!reposResponse.ok) {
         throw new Error('Failed to fetch repos')
       }
-      
+
       const reposData = await reposResponse.json()
-      
+
       // Calculate stats
       const totalStars = reposData.reduce((acc, repo) => acc + repo.stargazers_count, 0)
       const totalForks = reposData.reduce((acc, repo) => acc + repo.forks_count, 0)
       const languages = {}
-      
+
       reposData.forEach(repo => {
         if (repo.language) {
           languages[repo.language] = (languages[repo.language] || 0) + 1
         }
       })
-      
+
       const topLanguages = Object.entries(languages)
         .sort((a, b) => b[1] - a[1])
         .slice(0, 5)
         .map(([lang]) => lang)
-      
+
       setGithubData({
         ...userData,
         totalStars,
@@ -57,11 +57,11 @@ const LiveStats = () => {
         topLanguages,
         recentRepos: reposData.slice(0, 5)
       })
-      
+
     } catch (error) {
       console.error('Error fetching GitHub data:', error)
       alert(`Could not fetch GitHub data. Please check:\n1. Username is correct: "${githubUsername}"\n2. GitHub API is accessible\n3. You have internet connection\n\nError: ${error.message}`)
-      
+
       // Don't set fallback data - keep loading state or show error
       setGithubData(null)
     } finally {
@@ -82,10 +82,10 @@ const LiveStats = () => {
       <section className="py-20 px-4 relative overflow-hidden">
         {/* Separator line at top */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-75 blur-sm z-0" />
-        
+
         {/* Full section gradient overlay - transparent top, visible bottom */}
         <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
-        
+
         <div className="max-w-6xl mx-auto relative z-10">
           <div className="text-center">
             <motion.div
@@ -105,7 +105,7 @@ const LiveStats = () => {
       <section className="py-20 px-4 relative overflow-hidden">
         {/* Separator line at top */}
         <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-75 blur-sm z-0" />
-        
+
         {/* Full section gradient overlay - transparent top, visible bottom */}
         <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
         <div className="max-w-6xl mx-auto relative z-10">
@@ -201,8 +201,8 @@ const LiveStats = () => {
 
   return (
     <section className="py-20 px-4 relative overflow-hidden">
-              {/* Separator line at top */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00d9ff] to-transparent opacity-75 blur-sm z-0" />      
+      {/* Separator line at top */}
+      <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00d9ff] to-transparent opacity-75 blur-sm z-0" />
       {/* Full section gradient overlay - transparent top, visible bottom */}
       <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
       {/* Background */}
@@ -234,7 +234,7 @@ const LiveStats = () => {
             <Github className="w-6 h-6 text-accent" />
             <h3 className="text-2xl font-bold">GitHub Statistics</h3>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {statCards.map((stat, index) => (
               <motion.div
@@ -244,11 +244,11 @@ const LiveStats = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                whileHover={{ y: -8, scale: 1.02, boxShadow: '0 0 15px var(--accent-60), 0 0 30px var(--accent-40)' }} 
+                whileHover={{ y: -8, scale: 1.02, boxShadow: '0 0 15px var(--accent-60), 0 0 30px var(--accent-40)' }}
               >
                 {/* Gradient Background */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                
+
                 <div className="relative z-10">
                   {/* Icon */}
                   <motion.div
@@ -258,11 +258,11 @@ const LiveStats = () => {
                   >
                     <stat.icon className="w-5 h-5 text-surface" />
                   </motion.div>
-                  
+
                   <div className="text-3xl font-bold bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent mb-1">
                     {stat.value}
                   </div>
-                  
+
                   <div className="text-sm text-text-secondary">
                     {stat.label}
                   </div>
@@ -281,7 +281,7 @@ const LiveStats = () => {
               Estimated
             </span>
           </div>
-          
+
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
             {linkedinStats.map((stat, index) => (
               <motion.div
@@ -295,7 +295,7 @@ const LiveStats = () => {
               >
                 {/* Gradient Background */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
-                
+
                 <div className="relative z-10">
                   {/* Icon */}
                   <motion.div
@@ -305,11 +305,11 @@ const LiveStats = () => {
                   >
                     <stat.icon className="w-5 h-5 text-surface" />
                   </motion.div>
-                  
+
                   <div className="text-3xl font-bold bg-gradient-to-r from-[#00d9ff] to-[#4dfffe] bg-clip-text text-transparent mb-1">
                     {stat.value}
                   </div>
-                  
+
                   <div className="text-sm text-gray-600 dark:text-gray-400">
                     {stat.label}
                   </div>
@@ -332,7 +332,7 @@ const LiveStats = () => {
               <Github className="w-6 h-6 text-accent" />
               <h3 className="text-2xl font-bold">Most Used Languages</h3>
             </div>
-            
+
             <div className="flex flex-wrap gap-3">
               {githubData.topLanguages.map((lang, index) => (
                 <motion.span
@@ -362,9 +362,9 @@ const LiveStats = () => {
           >
             <div className="flex items-center gap-3 mb-6">
               <Activity className="w-6 h-6 text-accent" />
-              <h3 className="text-2xl font-bold">Recent Projects</h3>
+              <h3 className="text-2xl font-bold">Recent Github Repositories</h3>
             </div>
-            
+
             <div className="space-y-3">
               {githubData.recentRepos.map((repo, index) => (
                 <motion.a
@@ -415,13 +415,13 @@ const LiveStats = () => {
 
         {/* GitHub Activity Heatmap */}
         <motion.div
-            className="mt-8 p-4 rounded-xl border-accent" // Added border-accent here
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.8 }}
+          className="mt-8 p-4 rounded-xl border-accent" // Added border-accent here
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.8 }}
         >
-            <GitHubHeatmap githubUsername={githubUsername} />
+          <GitHubHeatmap githubUsername={githubUsername} />
         </motion.div>
 
         {/* Last Updated */}

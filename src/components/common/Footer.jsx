@@ -98,7 +98,7 @@ const Footer = () => {
             {/* Newsletter/Contact CTA */}
             <motion.a
               href="#contact"
-              className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#00d9ff] hover:bg-[#4dfffe] rounded-lg text-sm font-semibold transition-colors"
+              className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-[#00d9ff] hover:bg-[#4dfffe] rounded-lg text-sm font-semibold text-black transition-colors"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
@@ -109,42 +109,42 @@ const Footer = () => {
         </div>
 
         {/* Divider */}
-                  <div className="border-t border-[#00d9ff]/20 pt-8">          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            {/* Copyright */}
-            <motion.p
-              className="text-gray-500 dark:text-gray-400 text-sm text-center md:text-left"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
-            >
-              © {currentYear} {personalInfo.name}. All rights reserved.
-            </motion.p>
+        <div className="border-t border-[#00d9ff]/20 pt-8">          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          {/* Copyright */}
+          <motion.p
+            className="text-gray-500 dark:text-gray-400 text-sm text-center md:text-left"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.3 }}
+          >
+            © {currentYear} {personalInfo.name}. All rights reserved.
+          </motion.p>
 
-            {/* Made with Love */}
-            <motion.p
-              className="text-sm text-gray-400 dark:text-gray-500 flex items-center gap-2"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
+          {/* Made with Love */}
+          <motion.p
+            className="text-sm text-gray-400 dark:text-gray-500 flex items-center gap-2"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            Built with
+            <motion.span
+              animate={{
+                scale: [1, 1.2, 1],
+              }}
+              transition={{
+                duration: 1,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
             >
-              Built with
-              <motion.span
-                animate={{
-                  scale: [1, 1.2, 1],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                  ease: "easeInOut"
-                }}
-              >
-                <Heart size={16} className="text-red-500 fill-current" />
-              </motion.span>
-              using React & Tailwind CSS
-            </motion.p>
-          </div>
+              <Heart size={16} className="text-red-500 fill-current" />
+            </motion.span>
+            using React & Tailwind CSS
+          </motion.p>
+        </div>
         </div>
       </div>
     </footer>
