@@ -220,7 +220,7 @@ const LiveStats = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display">
             Live <span className="bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Stats</span>
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">

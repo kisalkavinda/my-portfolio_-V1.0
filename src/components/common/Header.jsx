@@ -48,11 +48,11 @@ const Header = () => {
       {/* Animated gradient overlay (fainter for this clean look) */}
       <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
-      <div className={`relative w-full px-4 sm:px-6 lg:px-8 flex justify-between items-center transition-all duration-300 ${isScrolled ? 'py-3' : 'py-5'
+      <div className={`relative w-full px-3 sm:px-6 lg:px-8 flex justify-between items-center transition-all duration-300 ${isScrolled ? 'py-2' : 'py-4'
         }`}>
-        {/* Logo Section - Width optimized for balance */}
-        <div className="flex-shrink-0 w-[140px]">
-          <Logo size={36} />
+        {/* Logo Section - Responsive width */}
+        <div className="flex-shrink-0">
+          <Logo size={32} />
         </div>
 
         {/* Desktop Navigation - Centered Pill */}
@@ -64,7 +64,8 @@ const Header = () => {
         </div>
 
         {/* Actions Section - CTA Button & Mobile Menu */}
-        <div className="flex items-center gap-4 justify-end w-[140px]">
+        <div className="flex items-center gap-2 sm:gap-4 justify-end"
+        >
           {/* CTA Button */}
           <motion.button
             onClick={() => scrollTo('contact')}

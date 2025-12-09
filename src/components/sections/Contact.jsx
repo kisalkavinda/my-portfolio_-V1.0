@@ -111,12 +111,12 @@ const Contact = () => {
     <section id="contact" className="px-4 py-20 relative overflow-hidden">
       {/* Separator line at top */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-75 blur-sm z-0" />
-      
+
       {/* Full section gradient overlay - transparent top, visible bottom */}
       <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
       <div className="max-w-6xl mx-auto w-full relative z-10">
-        <motion.h2 
-          className="text-4xl md:text-5xl font-bold mb-12 text-center"
+        <motion.h2
+          className="text-4xl md:text-5xl font-bold mb-12 text-center font-display"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}

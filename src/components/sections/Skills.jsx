@@ -1,11 +1,19 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { skills } from '../../data/skills'
+
+gsap.registerPlugin(ScrollTrigger)
 
 const Skills = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const sectionRef = useRef(null)
+  const titleRef = useRef(null)
+  const filtersRef = useRef(null)
+  const statsRef = useRef(null)
 
   const getCategoryColor = (category) => {
     switch (category) {
@@ -63,6 +71,59 @@ const Skills = () => {
 
     return () => clearInterval(interval)
   }, [currentIndex, filteredSkills.length])
+
+  // GSAP ScrollTrigger animations
+  useEffect(() => {
+    if (!sectionRef.current) return
+
+    const ctx = gsap.context(() => {
+      // Title animation
+      gsap.from(titleRef.current, {
+        opacity: 0,
+        y: 40,
+        duration: 0.6,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: titleRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Filters animation
+      gsap.from(filtersRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        delay: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: filtersRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Stats animation
+      if (statsRef.current) {
+        gsap.from(statsRef.current.children, {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          delay: 0.2,
+          stagger: 0.08,
+          ease: 'power2.out',
+          scrollTrigger: {
+            trigger: statsRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        })
+      }
+    }, sectionRef)
+
+    return () => ctx.revert()
+  }, [])
 
   // Get previous, current, and next skills from filtered list
   const getPrevIndex = () => {
@@ -185,7 +246,7 @@ const Skills = () => {
   }
 
   return (
-    <section id="skills" className="py-20 px-4 relative overflow-hidden">
+    <section ref={sectionRef} id="skills" className="py-20 px-4 relative overflow-hidden">
       {/* Separator line at top */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-75 blur-sm z-0" />
 
@@ -197,28 +258,22 @@ const Skills = () => {
 
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Title */}
-        <motion.div
+        <div
+          ref={titleRef}
           className="text-center mb-16"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6 font-display">
+          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-display">
             Tech <span className="bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Stack</span>
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
             A comprehensive toolkit of technologies and frameworks I leverage to build innovative solutions
           </p>
-        </motion.div>
+        </div>
 
         {/* Category Filters */}
-        <motion.div
+        <div
+          ref={filtersRef}
           className="flex flex-wrap justify-center gap-3 mb-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
         >
           {categories.map((category) => (
             <button
@@ -232,7 +287,7 @@ const Skills = () => {
               {category}
             </button>
           ))}
-        </motion.div>
+        </div>
 
         {/* 3-Card Carousel */}
         <div className="relative h-80 flex items-center justify-center mb-12">
@@ -275,12 +330,9 @@ const Skills = () => {
         </div>
 
         {/* Stats Summary */}
-        <motion.div
+        <div
+          ref={statsRef}
           className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3 }}
         >
           {Object.entries(techStack).map(([category, skillsArray], index) => (
             <motion.div
@@ -316,7 +368,7 @@ const Skills = () => {
               Total Skills
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronDown, Brain, Sparkles, Code, Download } from 'lucide-react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 
@@ -9,8 +11,11 @@ import { personalInfo } from '../../data/personalInfo'
 import { useScrollTo } from '../../hooks/useScrollTo'
 import GlitchText from '../common/GlitchText'
 import TextType from '../common/TextType'
+import { PDFDownloadLink } from '@react-pdf/renderer'
+import CVDocument from '../pdf/CVDocument'
 
-
+// Register GSAP ScrollTrigger
+gsap.registerPlugin(ScrollTrigger)
 
 // =====================================
 //  Background Neural Network
@@ -66,6 +71,17 @@ const Hero = () => {
   const [currentRole, setCurrentRole] = useState(0)
   const [isHovering, setIsHovering] = useState(false)
 
+  // GSAP refs
+  const heroRef = useRef(null)
+  const logoRef = useRef(null)
+  const greetingRef = useRef(null)
+  const nameRef = useRef(null)
+  const roleRef = useRef(null)
+  const descRef = useRef(null)
+  const buttonsRef = useRef(null)
+  const badgesRef = useRef(null)
+  const modelRef = useRef(null)
+
   const roles = [
     'ML Enthusiast',
     'Computer Engineering Student',
@@ -79,6 +95,117 @@ const Hero = () => {
     }, 3000)
     return () => clearInterval(interval)
   }, [roles.length])
+
+  // GSAP ScrollTrigger animations
+  useEffect(() => {
+    if (!heroRef.current) return
+
+    const ctx = gsap.context(() => {
+      // Logo animation
+      gsap.from(logoRef.current, {
+        opacity: 0,
+        scale: 0,
+        duration: 0.6,
+        ease: 'back.out(1.7)',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Greeting text
+      gsap.from(greetingRef.current, {
+        opacity: 0,
+        y: 20,
+        duration: 0.6,
+        delay: 0.1,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Name
+      gsap.from(nameRef.current, {
+        opacity: 0,
+        y: -30,
+        duration: 0.6,
+        delay: 0.2,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Description - animates on page load (no ScrollTrigger needed since it's at top)
+      gsap.fromTo(descRef.current,
+        {
+          opacity: 0,
+          y: 30
+        },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          delay: 1.2,
+          ease: 'power3.out'
+        }
+      )
+
+      // Buttons
+      gsap.from(buttonsRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        delay: 0.5,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+
+      // Tech badges stagger
+      if (badgesRef.current) {
+        const badges = badgesRef.current.children
+        gsap.from(badges, {
+          opacity: 0,
+          scale: 0,
+          duration: 0.5,
+          delay: 0.6,
+          stagger: 0.05,
+          ease: 'back.out(1.7)',
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: 'top 80%',
+            toggleActions: 'play none none none'
+          }
+        })
+      }
+
+      // 3D Model
+      gsap.from(modelRef.current, {
+        opacity: 0,
+        x: 50,
+        duration: 0.8,
+        delay: 0.3,
+        ease: 'power2.out',
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        }
+      })
+    }, heroRef)
+
+    return () => ctx.revert()
+  }, [])
 
   const handleDownloadResume = () => {
     const link = document.createElement('a')
@@ -142,8 +269,9 @@ const Hero = () => {
 
   return (
     <section
+      ref={heroRef}
       id="home"
-      className="relative min-h-screen flex items-center justify-center w-full px-4 sm:px-6 lg:px-8 pt-20 pb-32 overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center w-full px-3 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-20 sm:pb-32 overflow-hidden"
     >
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-accent to-transparent opacity-75 blur-sm z-0" />
       <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
@@ -151,10 +279,11 @@ const Hero = () => {
 
       <div className="relative z-10 w-full max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          
+
           {/* ================= LEFT COLUMN ================= */}
           <div className="text-center lg:text-left">
             <motion.div
+              ref={logoRef}
               className="inline-block relative mb-4"
               initial={{ opacity: 0, scale: 0 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -171,6 +300,7 @@ const Hero = () => {
             </motion.div>
 
             <motion.div
+              ref={greetingRef}
               className="mb-1"
             >
               <span className="inline-flex items-center gap-2 bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent text-sm sm:text-base">
@@ -190,7 +320,8 @@ const Hero = () => {
             </motion.div>
 
             <motion.h1
-              className="text-5xl md:text-6xl lg:text-7xl font-bold mb-1"
+              ref={nameRef}
+              className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1"
               initial={{ opacity: 0, y: -30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.3 }}
@@ -202,57 +333,66 @@ const Hero = () => {
               />
             </motion.h1>
 
-            <div className="h-16 sm:h-20 mb-2 relative overflow-hidden">
+            <div ref={roleRef} className="h-14 sm:h-16 md:h-20 mb-2 relative overflow-hidden">
               <TextType
                 text={roles}
                 as="h2"
-                className="absolute inset-x-0 text-xl md:text-2xl lg:text-3xl font-semibold bg-gradient-to-r from-text-primary/70 via-text-primary to-text-primary/70 bg-clip-text text-transparent font-heading"
+                className="absolute inset-x-0 text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold bg-gradient-to-r from-text-primary/70 via-text-primary to-text-primary/70 bg-clip-text text-transparent font-heading"
                 typingSpeed={70}
                 deletingSpeed={40}
-                pauseDuration={2000}
-                loop={true}
               />
             </div>
 
             <motion.p
-              className="text-base sm:text-lg bg-gradient-to-r from-gray-400 to-gray-200 dark:from-gray-400 dark:to-gray-200 bg-clip-text text-transparent max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-8"
+              ref={descRef}
+              className="text-sm sm:text-base md:text-lg text-text-secondary max-w-2xl mx-auto lg:mx-0 leading-relaxed mb-6"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.6 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
             >
               I&apos;m an innovative Computer Engineering student passionate about crafting intelligent systems and exploring emerging technologies.
             </motion.p>
 
             <motion.div
+              ref={buttonsRef}
               className="flex gap-4 justify-center lg:justify-start flex-wrap mb-8"
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
-                                <motion.button
-                                  onClick={() => scrollToSection('projects')}
-                                  className="group px-8 py-3 bg-[var(--accent)] rounded-lg font-semibold transition-all shadow-lg hover:shadow-[0_0_40px_rgba(var(--accent-rgb),0.8)] hover:bg-transparent border border-transparent hover:border-[var(--accent)]"
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                >
-                                                    <span className="flex items-center gap-2 text-black group-hover:text-[var(--accent)]">
-                                                      View Projects
-                                                      <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                                                    </span>                                </motion.button>
-                                <motion.button
-                                  onClick={handleDownloadResume}
-                                  className="group px-8 py-3 border-2 border-[var(--accent)] rounded-lg font-semibold transition-all backdrop-blur-sm hover:bg-[var(--accent)]"
-                                  whileHover={{ scale: 1.05 }}
-                                  whileTap={{ scale: 0.95 }}
-                                >
-                                  <span className="flex items-center gap-2 text-[var(--accent)] group-hover:text-surface">
-                                    <Download className="w-5 h-5 group-hover:animate-bounce" />
-                                    Download CV
-                                  </span>
-                                </motion.button>            </motion.div>
+              <motion.button
+                onClick={() => scrollToSection('projects')}
+                className="group px-8 py-3 bg-[var(--accent)] rounded-lg font-semibold transition-all shadow-lg hover:shadow-[0_0_40px_rgba(var(--accent-rgb),0.8)] hover:bg-transparent border border-transparent hover:border-[var(--accent)]"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <span className="flex items-center gap-2 text-black group-hover:text-[var(--accent)]">
+                  View Projects
+                  <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                </span>                                </motion.button>
+              <PDFDownloadLink
+                document={<CVDocument />}
+                fileName="Kisal_Kavinda_CV.pdf"
+                className="text-decoration-none"
+                style={{ textDecoration: 'none' }}
+              >
+                {({ loading }) => (
+                  <motion.button
+                    className="group px-8 py-3 border-2 border-[var(--accent)] rounded-lg font-semibold transition-all backdrop-blur-sm hover:bg-[var(--accent)]"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    <span className="flex items-center gap-2 text-[var(--accent)] group-hover:text-surface">
+                      <Download className="w-5 h-5 group-hover:animate-bounce" />
+                      {loading ? 'Preparing...' : 'Download CV'}
+                    </span>
+                  </motion.button>
+                )}
+              </PDFDownloadLink>            </motion.div>
 
             <motion.div
-              className="flex flex-wrap gap-3 justify-center lg:justify-start max-w-2xl mx-auto lg:mx-0"
+              ref={badgesRef}
+              className="flex flex-wrap gap-2 md:gap-3 justify-center lg:justify-start max-w-2xl mx-auto lg:mx-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1 }}
@@ -261,23 +401,25 @@ const Hero = () => {
                 (tech, i) => {
                   const colors = techColors[tech] || techColors.default;
                   return (
-                  <motion.span
-                    key={tech}
-                    className={`px-4 py-2 ${colors.bg} backdrop-blur-sm border ${colors.border} rounded-full text-sm ${colors.text} ${colors.hoverBorder} transition-all cursor-default`}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 1.1 + i * 0.05 }}
-                    whileHover={{ scale: 1.05, y: -2 }}
-                  >
-                    {tech}
-                  </motion.span>
-                )}
+                    <motion.span
+                      key={tech}
+                      className={`px-3 py-1.5 md:px-4 md:py-2 ${colors.bg} backdrop-blur-sm border ${colors.border} rounded-full text-xs md:text-sm ${colors.text} ${colors.hoverBorder} transition-all cursor-default`}
+                      initial={{ opacity: 0, scale: 0 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 1.1 + i * 0.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
+                    >
+                      {tech}
+                    </motion.span>
+                  )
+                }
               )}
             </motion.div>
           </div>
 
           {/* ================= RIGHT COLUMN (3D Model) ================= */}
           <motion.div
+            ref={modelRef}
             className="w-full h-[380px] sm:h-[450px] md:h-[500px] lg:h-[600px] relative flex items-center justify-center"
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -288,7 +430,7 @@ const Hero = () => {
               onMouseEnter={() => setIsHovering(true)}
               onMouseLeave={() => setIsHovering(false)}
             >
-              {/* âœ… Fixed Lottie Animation (centered & proportional) */}
+              {/* ✅ Fixed Lottie Animation (centered & proportional) */}
               <motion.div
                 className="relative z-10 w-full h-full flex items-center justify-center"
                 animate={{

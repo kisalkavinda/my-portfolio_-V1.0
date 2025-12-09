@@ -112,7 +112,7 @@ const Certificates = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-bold mb-4">
+            <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display">
               My <span className="bg-gradient-to-r from-[#00d9ff] to-[#4dfffe] bg-clip-text text-transparent">Certificates</span>
             </h2>
             <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">

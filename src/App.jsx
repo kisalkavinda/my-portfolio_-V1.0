@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import AOS from 'aos'
+import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom' // Removed BrowserRouter
 import { DarkModeProvider } from './hooks/DarkModeProvider.jsx'
 import Landing from './components/sections/Landing'
@@ -8,17 +7,6 @@ import MainLayout from './components/MainLayout'
 
 function App() {
   const [showLanding, setShowLanding] = useState(true)
-
-  useEffect(() => {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-out-cubic',
-      once: true,
-      offset: 100,
-      delay: 100,
-    })
-    AOS.refresh()
-  }, [])
 
   const handleLandingComplete = () => {
     setShowLanding(false)

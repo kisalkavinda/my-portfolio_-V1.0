@@ -8,7 +8,7 @@ export default defineConfig(({ command }) => {
   const base = command === 'build' ? '/my-portfolio/' : '/'
 
   return {
-    base, 
+    base,
     plugins: [
       react(),
       visualizer({
@@ -21,12 +21,6 @@ export default defineConfig(({ command }) => {
     },
     server: {
       port: 3000,
-      proxy: {
-        '/api': {
-          target: 'http://localhost:3001',
-          changeOrigin: true,
-        },
-      },
     },
   }
 })

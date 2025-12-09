@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://kisalkavinda.github.io/my-portfolio/sitemap.txt

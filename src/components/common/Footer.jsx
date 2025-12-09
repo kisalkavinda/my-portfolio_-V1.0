@@ -121,7 +121,7 @@ const Footer = () => {
             © {currentYear} {personalInfo.name}. All rights reserved.
           </motion.p>
 
-          {/* Made with Love */}
+          {/* Made with Love - Unique Personal Touch */}
           <motion.p
             className="text-sm text-gray-400 dark:text-gray-500 flex items-center gap-2"
             initial={{ opacity: 0 }}
@@ -142,7 +142,7 @@ const Footer = () => {
             >
               <Heart size={16} className="text-red-500 fill-current" />
             </motion.span>
-            using React & Tailwind CSS
+            and too much coffee ☕ | Deployed {currentYear}
           </motion.p>
         </div>
         </div>
