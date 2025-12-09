@@ -4,8 +4,8 @@ import { visualizer } from 'rollup-plugin-visualizer'
 
 // We change this to a function to access the 'command' argument
 export default defineConfig(({ command }) => {
-  // If running 'npm run build', use the repo name. If running 'npm run dev', use root.
-  const base = command === 'build' ? '/my-portfolio/' : '/'
+  // Use root base for Vercel, repo name for generic build (GitHub Pages), root for dev
+  const base = process.env.VERCEL ? '/' : (command === 'build' ? '/my-portfolio/' : '/')
 
   return {
     base,

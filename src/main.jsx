@@ -6,7 +6,7 @@ import './styles/globals.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename={import.meta.env.PROD ? '/my-portfolio/' : '/'}> {/* Dynamic basename */}
+    <BrowserRouter basename={import.meta.env.BASE_URL}> {/* Dynamic basename */}
       <App />
     </BrowserRouter>
   </React.StrictMode>,
