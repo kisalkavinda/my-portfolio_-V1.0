@@ -6,7 +6,7 @@ import { visualizer } from 'rollup-plugin-visualizer'
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   // Use root base for Vercel, repo name for generic build (GitHub Pages), root for dev
-  const base = env.VERCEL ? '/' : (command === 'build' ? '/my-portfolio/' : '/')
+  const base = env.VERCEL ? '/' : (command === 'build' ? '/my-portfolio_-V1.0/' : '/')
 
   return {
     base,
