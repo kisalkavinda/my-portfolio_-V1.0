@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
-import Navigation from './navigation'
+import Navigation from './Navigation'
 import Logo from './Logo'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 import { useScrollTo } from '../../hooks/useScrollTo'
