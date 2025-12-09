@@ -137,7 +137,7 @@ const Contact = () => {
               <form onSubmit={handleSubmit} className="space-y-6 flex-grow">
                 {/* Name Input */}
                 <div className="relative">
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-white">
                     Name
                   </label>
                   <div className="relative">
@@ -148,7 +148,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder:text-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
                       placeholder="Your name"
                     />
                   </div>
@@ -156,7 +156,7 @@ const Contact = () => {
 
                 {/* Email Input */}
                 <div className="relative">
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-white">
                     Email
                   </label>
                   <div className="relative">
@@ -167,7 +167,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder:text-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -175,7 +175,7 @@ const Contact = () => {
 
                 {/* Message Textarea */}
                 <div className="relative">
-                  <label className="block text-sm font-medium mb-2 text-gray-700 dark:text-gray-300">
+                  <label className="block text-sm font-medium mb-2 text-white">
                     Message
                   </label>
                   <div className="relative">
@@ -186,7 +186,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       rows="5"
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors resize-none"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder:text-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors resize-none"
                       placeholder="Your message..."
                     />
                   </div>
