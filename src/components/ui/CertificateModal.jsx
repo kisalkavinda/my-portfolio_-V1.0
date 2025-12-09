@@ -33,7 +33,7 @@ const CertificateModal = ({ certificate, onClose }) => {
               <a
                 href={certificate.pdf}
                 download={`${certificate.title}.pdf`}
-                className="flex items-center gap-2 px-4 py-2 bg-[var(--accent)] hover:bg-[var(--cyan-bright)] text-surface rounded-lg font-semibold transition-all text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-[var(--accent)] text-surface rounded-lg font-semibold text-sm"
               >
                 <Download size={16} />
                 Download PDF

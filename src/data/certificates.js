@@ -2,6 +2,7 @@ export const certificates = [
   {
     title: 'Python for Beginners',
     image: `${import.meta.env.BASE_URL}Certificates/Python_for_Beginners/Python_for_Beginners_E-Certificate_page-0001.jpg`,
+    pdf: `${import.meta.env.BASE_URL}Certificates/Python_for_Beginners/Python_for_Beginners_E-Certificate.pdf`,
     issuingOrg: 'University of Moratuwa',
     date: '2025',
     description: 'A foundational course on Python programming, covering the basics of syntax, data structures, and control flow.',
