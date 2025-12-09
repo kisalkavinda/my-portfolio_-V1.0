@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Award, Calendar, ZoomIn } from 'lucide-react'
-
+import CertificateModal from '../ui/CertificateModal'
 import { certificates } from '../../data/certificates'
 
-const CertificateCard = ({ certificate, index }) => {
+const CertificateCard = ({ certificate, index, onViewClick }) => {
 
 
   return (
     <motion.div
-      className="group relative bg-surface/50 backdrop-blur-sm rounded-xl p-6 border-2 border-[#00d9ff]/40 hover:border-[#00d9ff]/50 transition-all flex flex-col"
+      className="group relative bg-surface/50 backdrop-blur-sm rounded-xl p-6 border-2 border-[#00d9ff]/40 hover:border-[#00d9ff]/50 transition-all overflow-hidden flex flex-col"
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
@@ -67,26 +67,34 @@ const CertificateCard = ({ certificate, index }) => {
       </div>
 
       <div className="flex gap-2 mt-auto z-20">
-        <motion.a
-          href={certificate.pdf}
-          download
+        <motion.button
+          onClick={() => onViewClick(certificate)}
           className="flex-1 inline-flex items-center justify-center gap-2 text-[#00d9ff] hover:text-[#4dfffe] font-semibold py-2 px-4 bg-[#00d9ff]/10 hover:bg-[#00d9ff]/20 rounded-xl transition-all"
           whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
         >
           <ZoomIn size={16} />
-          Download PDF
-        </motion.a>
+          View Certificate
+        </motion.button>
       </div>
     </motion.div>
   )
 }
 
 const Certificates = () => {
+  const [selectedCertificate, setSelectedCertificate] = useState(null)
   const [showAll, setShowAll] = useState(false)
 
   const displayedCertificates = showAll ? certificates : certificates.slice(0, 4)
   const hasMore = certificates.length > 4
 
+  const handleViewClick = (certificate) => {
+    setSelectedCertificate(certificate);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedCertificate(null);
+  };
 
   return (
     <>
@@ -118,6 +126,7 @@ const Certificates = () => {
                 key={index}
                 certificate={cert}
                 index={index}
+                onViewClick={handleViewClick}
               />
             ))}
           </div>
@@ -158,7 +167,10 @@ const Certificates = () => {
         </div>
       </section>
 
-
+      <CertificateModal
+        certificate={selectedCertificate}
+        onClose={handleCloseModal}
+      />
     </>
   )
 }

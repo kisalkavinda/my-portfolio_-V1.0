@@ -31,13 +31,12 @@ const CertificateModal = ({ certificate, onClose }) => {
             <h3 className="text-lg font-bold text-[var(--accent)]">{certificate.title}</h3>
             <div className="flex items-center gap-4">
               <a
-                href={`https://docs.google.com/viewer?url=${window.location.origin}${certificate.pdf}`}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={certificate.pdf}
+                download={`${certificate.title}.pdf`}
                 className="flex items-center gap-2 px-4 py-2 bg-[var(--accent)] hover:bg-[var(--cyan-bright)] text-surface rounded-lg font-semibold transition-all text-sm"
               >
                 <Download size={16} />
-                View PDF
+                Download PDF
               </a>
               <button
                 onClick={onClose}
@@ -49,19 +48,19 @@ const CertificateModal = ({ certificate, onClose }) => {
           </motion.div>
 
           {/* Image Content */}
-                                                                                <motion.div
-                                                                                  initial={{ opacity: 0, y: 20 }}
-                                                                                  animate={{ opacity: 1, y: 0 }}
-                                                                                  transition={{ duration: 0.3, delay: 0.2 }}
-                                                                                  className="flex-grow overflow-y-hidden px-4 py-10 max-w-2xl mx-auto"
-                                                                                >              <img
-                src={certificate.image}
-                alt={`Certificate for ${certificate.title}`}
-                className="w-full h-auto object-contain rounded-xl shadow-lg border border-gray-200 dark:border-gray-700"
-              />                                        </motion.div>
-                              
-                                        {/* Explicit Spacer */}
-                                        <div className="h-8"></div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: 0.2 }}
+            className="flex-grow overflow-y-hidden px-4 py-10 max-w-2xl mx-auto"
+          >              <img
+              src={certificate.image}
+              alt={`Certificate for ${certificate.title}`}
+              className="w-full h-auto object-contain rounded-xl shadow-lg border border-gray-200 dark:border-gray-700"
+            />                                        </motion.div>
+
+          {/* Explicit Spacer */}
+          <div className="h-8"></div>
         </motion.div>
       </motion.div>
     </AnimatePresence>
