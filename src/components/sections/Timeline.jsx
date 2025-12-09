@@ -1,10 +1,44 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { Calendar, Award, BookOpen, Code, Briefcase, Rocket } from 'lucide-react'
 
 import { timelineEvents } from '../../data/timeline'
 
 const Timeline = () => {
+  const [lineHeight, setLineHeight] = useState(0)
+  const timelineRef = useRef(null)
+  const lineRef = useRef(null)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!timelineRef.current || !lineRef.current) return
+
+      const rect = timelineRef.current.getBoundingClientRect()
+      const timelineTop = rect.top + window.scrollY
+      const timelineHeight = rect.height
+      const windowHeight = window.innerHeight
+
+      // Start animating when timeline enters viewport
+      const scrollPosition = window.scrollY + windowHeight
+      const relativeScroll = scrollPosition - timelineTop
+
+      // Calculate percentage - starts at 0 when timeline enters viewport
+      const scrollPercentage = Math.max(0, Math.min(100, (relativeScroll / (timelineHeight + windowHeight * 0.5)) * 100))
+      setLineHeight(scrollPercentage)
+    }
+
+    // Initial calculation
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('resize', handleScroll)
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+      window.removeEventListener('resize', handleScroll)
+    }
+  }, [])
+
   return (
     <section id="timeline" className="py-20 px-4 relative overflow-hidden">
       {/* Separator line at top */}
@@ -35,7 +69,7 @@ const Timeline = () => {
             <Calendar size={48} className="text-accent" />
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
             My <span className="bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Journey</span>
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
@@ -44,9 +78,22 @@ const Timeline = () => {
         </motion.div>
 
         {/* Timeline */}
-        <div className="relative">
-          {/* Central Line */}
-          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-accent via-highlight to-accent hidden md:block" />
+        <div className="relative" ref={timelineRef}>
+          {/* Central Line - Background (full height, dimmed) */}
+          <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-accent/20 via-highlight/20 to-accent/20 hidden md:block" />
+
+          {/* Central Line - Animated (grows with scroll) */}
+          <div
+            ref={lineRef}
+            className="absolute left-1/2 transform -translate-x-1/2 w-1.5 bg-gradient-to-b from-accent via-highlight to-accent hidden md:block transition-all duration-300 ease-out shadow-[0_0_20px_rgba(124,58,237,0.6)]"
+            style={{ height: `${lineHeight}%` }}
+          />
+
+          {/* Animated Droplet at the end of the line */}
+          <div
+            className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-accent to-highlight rounded-full hidden md:block transition-all duration-300 ease-out shadow-[0_0_25px_rgba(124,58,237,0.8)] animate-pulse"
+            style={{ top: `${lineHeight}%` }}
+          />
 
           {/* Timeline Events */}
           <div className="space-y-12">
@@ -60,6 +107,17 @@ const Timeline = () => {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
               >
+                {/* Branch Line - connects center to card */}
+                <motion.div
+                  className={`absolute hidden md:block h-0.5 bg-gradient-to-r ${index % 2 === 0
+                    ? 'from-accent/60 to-transparent left-1/2'
+                    : 'from-transparent to-accent/60 right-1/2'
+                    } w-[4%] top-1/2 transform -translate-y-1/2 shadow-[0_0_10px_rgba(124,58,237,0.4)]`}
+                  initial={{ scaleX: 0 }}
+                  whileInView={{ scaleX: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: index * 0.2 + 0.3 }}
+                />
                 {/* Content Card */}
                 <motion.div
                   className={`w-full md:w-[48%] ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
@@ -70,7 +128,7 @@ const Timeline = () => {
                   <div className="bg-surface bg-surface/20 backdrop-blur-sm rounded-xl p-6 border-2 border-accent/40 hover:border-accent/50 transition-all group">
                     {/* Year Badge */}
                     <motion.div
-                      className={`inline-block px-4 py-2 rounded-full bg-gradient-to-r ${event.color} text-text-primary font-bold mb-4 shadow-lg`}
+                      className={`inline-block px-4 py-2 rounded-full bg-gradient-to-r ${event.color} text-white font-bold mb-4 shadow-lg`}
                       whileHover={{ scale: 1.1 }}
                     >
                       {event.year}
