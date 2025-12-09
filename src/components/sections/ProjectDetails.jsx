@@ -8,7 +8,7 @@ import {
 } from 'lucide-react'
 import { projects } from '../../data/projects'
 import DigitalRainBackground from '../common/DigitalRainBackground'
-import ThemeToggle from '../common/ThemeToggle'
+
 import ImageSlideshowModal from '../ui/ImageSlideshowModal'
 import ProjectProgress from '../ui/ProjectProgress'
 import TechBadge from '../ui/TechBadge'
@@ -175,7 +175,7 @@ const ProjectDetails = () => {
               <Clock size={16} className="text-[#00d9ff]" />
               <span className="text-sm font-medium">Last updated: 2 days ago</span>
             </div>
-            <ThemeToggle />
+
           </div>
         </div>
       </motion.header>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useDarkMode } from '../../hooks/useDarkMode';
+
 
 const TrailParticle = ({ id, x, y, color }) => (
   <motion.div
@@ -24,9 +24,7 @@ const TrailParticle = ({ id, x, y, color }) => (
 const CursorTrail = () => {
   const [particles, setParticles] = useState([]);
   const particleId = useRef(0); // Use a ref for unique IDs
-  const { darkMode } = useDarkMode();
-
-  const trailColor = darkMode ? '#4dfffe' : '#4dfffe'; // Highlight color
+  const trailColor = '#4dfffe'; // Highlight color
 
   useEffect(() => {
     const addParticle = (e) => {

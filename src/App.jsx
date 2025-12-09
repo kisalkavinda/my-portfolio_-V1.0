@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom' // Removed BrowserRouter
-import { DarkModeProvider } from './hooks/DarkModeProvider.jsx'
+
 import Landing from './components/sections/Landing'
 import ProjectDetails from './components/sections/ProjectDetails'
 import MainLayout from './components/MainLayout'
@@ -13,7 +13,7 @@ function App() {
   }
 
   return (
-    <DarkModeProvider>
+    <>
       {/* BrowserRouter is now in main.jsx */}
       {showLanding ? (
         <Landing onComplete={handleLandingComplete} />
@@ -25,7 +25,7 @@ function App() {
           </Routes>
         </div>
       )}
-    </DarkModeProvider>
+    </>
   )
 }
 

@@ -1,11 +1,11 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 // FIXED: Added an extra "../" to reach the src folder
-import { useDarkMode } from '../../hooks/useDarkMode';
+
 
 const DigitalRainBackground = () => {
   const canvasRef = useRef(null);
   const animationFrameId = useRef(null);
-  const { darkMode } = useDarkMode();
+  const darkMode = true; // Hardcode to dark mode
 
   const resizeCanvas = useCallback((canvas, ctx, columns, drops, fontSize) => {
     canvas.width = window.innerWidth;
@@ -14,7 +14,7 @@ const DigitalRainBackground = () => {
     drops = Array(columns).fill(1);
     
     // Set initial background clear
-    ctx.fillStyle = darkMode ? '#0f172a' : '#f8fafc'; // Slate-900 or Slate-50
+    ctx.fillStyle = '#0f172a';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     return { columns, drops };
@@ -38,7 +38,7 @@ const DigitalRainBackground = () => {
 
     const draw = () => {
       // Fade effect
-      ctx.fillStyle = darkMode ? 'rgba(15, 23, 42, 0.05)' : 'rgba(248, 250, 252, 0.05)';
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.05)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       ctx.font = `${fontSize}px 'JetBrains Mono', monospace`; 
@@ -88,7 +88,7 @@ const DigitalRainBackground = () => {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [resizeCanvas, darkMode]); 
+  }, [resizeCanvas]); 
 
   return (
     <canvas
