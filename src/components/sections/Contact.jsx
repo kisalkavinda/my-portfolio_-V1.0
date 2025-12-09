@@ -148,7 +148,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-text-primary placeholder-text-primary/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
                       placeholder="Your name"
                     />
                   </div>
@@ -167,7 +167,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-text-primary placeholder-text-primary/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -186,7 +186,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       rows="5"
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-text-primary placeholder-text-primary/70 focus:outline-none focus:border-[#00d9ff] transition-colors resize-none"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-white placeholder-white/70 focus:outline-none focus:border-[#00d9ff] transition-colors resize-none"
                       placeholder="Your message..."
                     />
                   </div>
@@ -226,7 +226,7 @@ const Contact = () => {
           >
             <div className="bg-slate-100 bg-surface/50 backdrop-blur-sm rounded-2xl p-6 border border-[#00d9ff]/20 flex-grow">
               <h3 className="text-2xl font-bold mb-6">Connect With Me</h3>
-              <p className="text-gray-700 dark:text-gray-300 mb-8">
+              <p className="text-white mb-8">
                 I&apos;m always open to discussing new projects, creative ideas, or opportunities to be part of your vision.
               </p>
 
@@ -248,10 +248,10 @@ const Contact = () => {
                       {method.icon}
                     </div>
                     <div className="text-left flex-1">
-                      <div className="font-semibold text-gray-900 dark:text-white group-hover:text-[#00d9ff] transition-colors">
+                      <div className="font-semibold text-white group-hover:text-[#00d9ff] transition-colors">
                         {method.label}
                       </div>
-                      <div className="text-sm text-gray-600 dark:text-gray-400">
+                      <div className="text-sm text-white">
                         {method.value}
                       </div>
                     </div>
@@ -271,7 +271,7 @@ const Contact = () => {
           transition={{ duration: 0.6, delay: 0.8 }}
         >
           <h4 className="text-lg font-bold mb-4">Quick Response</h4>
-          <p className="text-sm text-gray-700 dark:text-gray-300">
+          <p className="text-sm text-white">
             I typically respond within 24-48 hours. For urgent inquiries, feel free to connect with me on LinkedIn.
           </p>
         </motion.div>

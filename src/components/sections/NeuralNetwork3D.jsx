@@ -157,12 +157,11 @@ const NeuralNetwork3D = () => {
     // Theme-aware colors
     const accentColor = '0, 217, 255';
     const highlightColor = '77, 255, 254';
-    const nodeFillWhite = accentColor;
     const binaryParticleColor = '0, 217, 255';
     const layerLineColor = '0, 217, 255';
     const layerRectBg = '10, 10, 10';
     const layerTextFill = '192, 192, 192';
-    const outputNodeTextColor = '255, 255, 255';
+    const outputNodeTextColor = layerTextFill;
 
     // Binary Particles (Matrix Effect)
     const createParticle = (x, y) => ({
@@ -248,7 +247,7 @@ const NeuralNetwork3D = () => {
           const py = conn.from.y + (conn.to.y - conn.from.y) * conn.dataPacket
           ctx.shadowBlur = 10 * depthScale
           ctx.shadowColor = `rgba(${highlightColor}, 0.9)`
-          ctx.fillStyle = `rgba(${nodeFillWhite}, ${alpha + 0.8})`
+          ctx.fillStyle = `rgba(${accentColor}, ${alpha + 0.8})`
           ctx.beginPath()
           ctx.arc(px, py, 2.5 * depthScale, 0, Math.PI * 2)
           ctx.fill()
@@ -284,7 +283,7 @@ const NeuralNetwork3D = () => {
             const py = conn.from.y + (conn.to.y - conn.from.y) * Math.random()
             ctx.shadowBlur = 10
             ctx.shadowColor = `rgba(${accentColor}, 0.9)`
-            ctx.fillStyle = `rgba(${nodeFillWhite}, ${alpha})`
+            ctx.fillStyle = `rgba(${accentColor}, ${alpha})`
             ctx.beginPath()
             ctx.arc(px, py, 1.5 * depthScale, 0, Math.PI * 2)
             ctx.fill()
@@ -301,8 +300,8 @@ const NeuralNetwork3D = () => {
         const gradient = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, r * 4)
         const hue = node.isOutput ? 175 : 185;
         const saturation = '100%';
-        const lightnessInner = '80%';
-        const lightnessOuter = '60%';
+        const lightnessInner = '50%';
+        const lightnessOuter = '30%';
         const lightnessTransparent = '50%';
 
         gradient.addColorStop(0, `hsla(${hue}, ${saturation}, ${lightnessOuter}, ${node.activation})`)
@@ -433,7 +432,7 @@ const NeuralNetwork3D = () => {
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00d9ff] via-highlight to-transparent opacity-75 blur-sm z-0" />
 
       {/* Full section gradient overlay - transparent top, visible bottom */}
-      <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
+      <div className="absolute inset-0 pointer-events-none z-0 bg-gradient-to-b from-transparent via-black/25 to-black/55" />
 
       {/* Background decoration (Glowing Orbs) */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
@@ -490,19 +489,19 @@ const NeuralNetwork3D = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="w-full lg:w-[320px] bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 space-y-4 lg:sticky top-6 order-3 lg:order-1"
+            className="w-full lg:w-[320px] bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 space-y-4 lg:sticky top-6 order-3 lg:order-1"
           >
             <div className="flex items-center gap-3 mb-4">
               <Layers className="text-accent" size={20} />
-              <h3 className="text-lg font-bold text-gray-800 text-text-primary">Architecture</h3>
+              <h3 className="text-lg font-bold text-text-primary">Architecture</h3>
             </div>
 
             <div className="p-2 bg-accent/10 rounded-lg border border-accent/30">
-              <label className="block text-accent text-highlight font-semibold mb-1">Input Layer</label>
+              <label className="block text-highlight font-semibold mb-1">Input Layer</label>
               <div className="flex items-center gap-2">
-                <button onClick={() => setInputFeatures(Math.max(2, inputFeatures - 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-accent text-highlight"><Minus size={16} /></button>
-                <input type="number" min="2" max="12" value={inputFeatures} onChange={(e) => setInputFeatures(Math.max(2, Math.min(12, parseInt(e.target.value) || 2)))} className="flex-1 bg-gray-100/50 bg-surface/50 border-accent/30 border-accent/30 rounded px-2 py-1 text-gray-800 text-text-primary text-center" />
-                <button onClick={() => setInputFeatures(Math.min(10, inputFeatures + 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-accent text-highlight"><Plus size={16} /></button>
+                <button onClick={() => setInputFeatures(Math.max(2, inputFeatures - 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-highlight"><Minus size={16} /></button>
+                <input type="number" min="2" max="12" value={inputFeatures} onChange={(e) => setInputFeatures(Math.max(2, Math.min(12, parseInt(e.target.value) || 2)))} className="flex-1 bg-surface/50 border-accent/30 border-accent/30 rounded px-2 py-1 text-text-primary text-center" />
+                <button onClick={() => setInputFeatures(Math.min(10, inputFeatures + 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-highlight"><Plus size={16} /></button>
               </div>
               <p className="text-text-primary">{inputFeatures} neurons</p>
             </div>
@@ -512,8 +511,8 @@ const NeuralNetwork3D = () => {
               <div className="flex items-center justify-between mb-1">
                 <label className="text-highlight text-highlight font-semibold">Hidden Layers</label>
                 <div className="flex gap-1">
-                  <button onClick={removeHiddenLayer} disabled={hiddenLayers.length <= 1} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-accent text-highlight"><Minus size={14} /></button>
-                  <button onClick={addHiddenLayer} disabled={hiddenLayers.length >= 5} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-accent text-highlight"><Plus size={14} /></button>
+                  <button onClick={removeHiddenLayer} disabled={hiddenLayers.length <= 1} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-highlight"><Minus size={14} /></button>
+                  <button onClick={addHiddenLayer} disabled={hiddenLayers.length >= 5} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-highlight"><Plus size={14} /></button>
                 </div>
               </div>
               <div className="space-y-2">
@@ -525,20 +524,20 @@ const NeuralNetwork3D = () => {
                       <div className="h-full bg-highlight" style={{ width: `${(count / 16) * 100}%` }}></div>
                     </div>
                     <button onClick={() => updateHiddenLayerNodes(i, count + 1)} className="p-1 bg-accent/50 hover:bg-accent rounded"><Plus size={10} /></button>
-                    <span className="w-5 text-right text-gray-800 text-text-primary">{count}</span>
+                    <span className="w-5 text-right text-text-primary">{count}</span>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-gray-700 text-text-primary mt-1">{hiddenLayers.length} layers</p>
+              <p className="text-xs text-text-primary mt-1">{hiddenLayers.length} layers</p>
             </div>
 
             {/* Output Layer */}
             <div className="p-2 bg-accent/10 rounded-lg border border-accent/30">
-              <label className="block text-accent text-highlight font-semibold mb-1">Output Layer</label>
+              <label className="block text-highlight font-semibold mb-1">Output Layer</label>
               <div className="flex items-center gap-2">
-                <button onClick={() => setOutputClasses(Math.max(2, outputClasses - 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-accent text-highlight"><Minus size={16} /></button>
-                <input type="number" min="2" max="12" value={outputClasses} onChange={(e) => setOutputClasses(Math.max(2, Math.min(12, parseInt(e.target.value) || 2)))} className="flex-1 bg-gray-100/50 bg-surface/50 border-accent/30 border-accent/30 rounded px-2 py-1 text-gray-800 text-text-primary text-center" />
-                <button onClick={() => setOutputClasses(Math.min(10, outputClasses + 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-accent text-highlight"><Plus size={16} /></button>
+                <button onClick={() => setOutputClasses(Math.max(2, outputClasses - 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-highlight"><Minus size={16} /></button>
+                <input type="number" min="2" max="12" value={outputClasses} onChange={(e) => setOutputClasses(Math.max(2, Math.min(12, parseInt(e.target.value) || 2)))} className="flex-1 bg-surface/50 border-accent/30 border-accent/30 rounded px-2 py-1 text-text-primary text-center" />
+                <button onClick={() => setOutputClasses(Math.min(10, outputClasses + 1))} className="p-1 bg-accent/80 hover:bg-accent active:scale-95 transition-all rounded text-highlight"><Plus size={16} /></button>
               </div>
               <p className="text-text-primary">{outputClasses} neurons</p>
             </div>
@@ -575,7 +574,7 @@ const NeuralNetwork3D = () => {
           {/* Center: Visualization Canvas */}
           <main className="flex-1 flex flex-col gap-4 min-w-0 relative order-1 lg:order-2 h-[400px] sm:h-[500px] lg:h-auto lg:min-h-[600px]">
             <motion.div
-              className={`relative bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 overflow-hidden shadow-2xl flex-1 ${isMouseOver ? 'ring-2 ring-accent/50' : ''}`}
+              className={`relative bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 overflow-hidden shadow-2xl flex-1 ${isMouseOver ? 'ring-2 ring-accent/50' : ''}`}
               initial={{ opacity: 0, scale: 0.98 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
@@ -590,16 +589,16 @@ const NeuralNetwork3D = () => {
 
               {/* Floating Canvas Controls */}
               <div className="absolute top-4 right-4 flex gap-2 z-20">
-                <motion.button onClick={() => setIsTraining(!isTraining)} className={`flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-xl border text-xs md:text-sm font-mono transition-all backdrop-blur-md ${isTraining ? 'bg-highlight/20 border-highlight/50 text-highlight text-highlight/70' : 'bg-gray-100/50 border-accent/50 text-gray-700 bg-surface/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <motion.button onClick={() => setIsTraining(!isTraining)} className={`flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-xl border text-xs md:text-sm font-mono transition-all backdrop-blur-md ${isTraining ? 'bg-highlight/20 border-highlight/50 text-highlight/70' : 'bg-surface/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   {isTraining ? <><Pause size={12} className="md:w-3.5 md:h-3.5" /> STOP</> : <><Play size={12} className="md:w-3.5 md:h-3.5" /> TRAIN</>}
                 </motion.button>
-                <motion.button onClick={() => setShowBinary(!showBinary)} className={`p-1.5 md:p-2 rounded-xl border transition-all backdrop-blur-md ${showBinary ? 'bg-accent/10 border-accent text-accent bg-accent/20 border-accent/50 text-highlight' : 'bg-gray-100/50 border-accent/50 text-gray-700 dark:bg-[#0a0a0a]/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }}>
+                <motion.button onClick={() => setShowBinary(!showBinary)} className={`p-1.5 md:p-2 rounded-xl border transition-all backdrop-blur-md ${showBinary ? 'bg-accent/20 border-accent/50 text-highlight' : 'bg-[#0a0a0a]/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }}>
                   <Code2 size={14} className="md:w-4 md:h-4" />
                 </motion.button>
               </div>
 
               {/* Legend */}
-              <div className="absolute bottom-4 left-4 flex flex-wrap gap-3 text-[9px] md:text-[10px] font-mono uppercase tracking-wider text-accent/60 text-highlight/60 pointer-events-none z-20">
+              <div className="absolute bottom-4 left-4 flex flex-wrap gap-3 text-[9px] md:text-[10px] font-mono uppercase text-highlight/60 pointer-events-none z-20">
                 <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent"></div> Input/Hidden</div>
                 <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-highlight"></div> Output Class</div>
                 <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-surface"></div> Inactive</div>
@@ -610,18 +609,18 @@ const NeuralNetwork3D = () => {
           {/* Right Sidebar: Analytics */}
           <aside className="w-full lg:w-[280px] flex flex-col gap-3 order-2 lg:order-3">
             {/* Model Stats */}
-            <div className="bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 shadow-xl">
-              <div className="flex items-center gap-2 text-accent text-highlight border-b border-accent/20 pb-3 mb-3">
+            <div className="bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 shadow-xl">
+              <div className="flex items-center gap-2 text-highlight border-b border-accent/20 pb-3 mb-3">
                 <Server size={16} />
                 <span className="font-bold text-xs tracking-wide">MODEL STATS</span>
               </div>
 
               <div className="grid grid-cols-2 gap-2 mb-4">
-                <div className="bg-gray-100/50 bg-surface/50 p-2 rounded-xl border border-accent/50 border-accent/20">
-                  <div className="text-lg font-mono text-accent text-highlight">{getTotalParams()}</div>
+                <div className="bg-surface/50 p-2 rounded-xl border border-accent/50 border-accent/20">
+                  <div className="text-lg font-mono text-highlight">{getTotalParams()}</div>
                   <div className="text-[10px] text-accent/60 text-highlight/60 uppercase">Params</div>
                 </div>
-                <div className="bg-gray-100/50 bg-surface/50 p-2 rounded-xl border border-accent/50 border-accent/20">
+                <div className="bg-surface/50 p-2 rounded-xl border border-accent/50 border-accent/20">
                   <div className="text-lg font-mono text-highlight text-highlight">{hiddenLayers.length + 2}</div>
                   <div className="text-[10px] text-highlight/60 text-highlight/60 uppercase">Layers</div>
                 </div>
@@ -629,7 +628,7 @@ const NeuralNetwork3D = () => {
 
               {/* Fake Loss Graph */}
               <div className="space-y-2">
-                <div className="flex justify-between text-xs text-accent/70 text-highlight/70 font-mono">
+                <div className="flex justify-between text-xs text-highlight/70 font-mono">
                   <span className="flex items-center gap-1"><Activity size={10} /> Loss Function</span>
                   <span className="text-highlight">0.0241</span>
                 </div>
@@ -642,8 +641,8 @@ const NeuralNetwork3D = () => {
             </div>
 
             {/* Accuracy Metrics */}
-            <div className="bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 flex-1 shadow-xl">
-              <div className="flex items-center gap-2 text-accent text-highlight border-b border-accent/20 pb-3 mb-3">
+            <div className="bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 flex-1 shadow-xl">
+              <div className="flex items-center gap-2 text-highlight border-b border-accent/20 pb-3 mb-3">
                 <LineChart size={16} />
                 <span className="font-bold text-xs tracking-wide">METRICS</span>
               </div>
@@ -651,8 +650,8 @@ const NeuralNetwork3D = () => {
               <div className="space-y-3">
                 <div>
                   <div className="flex justify-between text-xs font-mono mb-1">
-                    <span className="text-accent/70 text-highlight/70">Training Accuracy</span>
-                    <span className="text-accent text-highlight">98.2%</span>
+                    <span className="text-highlight/70">Training Accuracy</span>
+                    <span className="text-highlight">98.2%</span>
                   </div>
                   <div className="bg-surface rounded-full overflow-hidden">
                     <div className="h-full bg-accent w-[98%] shadow-[0_0_10px_rgba(0,217,255,0.5)]"></div>
@@ -669,8 +668,8 @@ const NeuralNetwork3D = () => {
                 </div>
               </div>
 
-              <div className="mt-4 p-3 bg-gray-100/50 bg-surface/50 rounded-xl border border-accent/50 border-accent/20">
-                <code className="text-[10px] text-accent text-highlight font-mono block leading-relaxed opacity-80">
+              <div className="mt-4 p-3 bg-surface/50 rounded-xl border border-accent/50 border-accent/20">
+                <code className="text-[10px] text-highlight font-mono block leading-relaxed opacity-80">
                   &gt; forward_prop()<br />
                   &gt; calc_loss()<br />
                   &gt; backprop()<br />
@@ -681,15 +680,15 @@ const NeuralNetwork3D = () => {
             </div>
 
             {/* Quick Actions Card */}
-            <div className="bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 space-y-2">
-              <h4 className="text-base font-bold text-gray-800 text-text-primary mb-2">Quick Actions</h4>
-              <button onClick={() => setIsTraining(!isTraining)} className="w-full py-1.5 px-3 bg-accent/20 hover:bg-accent/40 border border-accent/50 rounded-lg transition-all text-xs text-accent text-highlight">
+            <div className="bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 space-y-2">
+              <h4 className="text-base font-bold text-text-primary mb-2">Quick Actions</h4>
+              <button onClick={() => setIsTraining(!isTraining)} className="w-full py-1.5 px-3 bg-accent/20 hover:bg-accent/40 border border-accent/50 rounded-lg transition-all text-xs text-highlight">
                 Toggle Rotation
               </button>
               <button onClick={() => setParticleMode(!particleMode)} className="w-full py-1.5 px-3 bg-highlight/20 bg-highlight/40 border border-highlight/50 rounded-lg transition-all text-xs text-highlight text-highlight">
                 Toggle Particles
               </button>
-              <button onClick={() => resetNetwork()} className="w-full py-1.5 px-3 bg-accent/20 hover:bg-accent/40 border border-accent/50 rounded-lg transition-all text-xs text-accent text-highlight">
+              <button onClick={() => resetNetwork()} className="w-full py-1.5 px-3 bg-accent/20 hover:bg-accent/40 border border-accent/50 rounded-lg transition-all text-xs text-highlight">
                 Reset Network
               </button>
             </div>
@@ -704,7 +703,7 @@ const NeuralNetwork3D = () => {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
         >
-          <h3 className="text-lg font-bold text-accent text-highlight mb-3">Try These Presets</h3>
+          <h3 className="text-lg font-bold text-highlight mb-3">Try These Presets</h3>
           <div className="flex flex-nowrap lg:flex-wrap overflow-x-auto gap-4 justify-center">
             {[
               { name: 'Simple', input: 3, hidden: [4], output: 2 },
@@ -722,12 +721,12 @@ const NeuralNetwork3D = () => {
                     setOutputClasses(preset.output)
                   }, 0)
                 }}
-                className="px-4 py-3 bg-surface/50 hover:bg-surface/50 dark:hover:bg-accent/30 border border-accent border-accent/50 hover:border-accent/50 border-accent/60 rounded-xl transition-all flex-shrink-0"
+                className="px-4 py-3 bg-surface/50 hover:bg-surface/50 hover:bg-accent/30 border border-accent border-accent/50 hover:border-accent/50 border-accent/60 rounded-xl transition-all flex-shrink-0"
                 whileHover={{ scale: 1.05, y: -2 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <div className="font-medium text-sm text-accent text-highlight">{preset.name}</div>
-                <div className="text-xs text-text-primary dark:text-text-primary">{preset.input}-{preset.hidden.join('-')}-{preset.output}</div>
+                <div className="font-medium text-sm text-highlight">{preset.name}</div>
+                <div className="text-xs text-text-primary">{preset.input}-{preset.hidden.join('-')}-{preset.output}</div>
               </motion.button>
             ))}
           </div>
