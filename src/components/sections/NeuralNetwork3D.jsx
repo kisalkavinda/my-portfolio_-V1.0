@@ -427,7 +427,7 @@ const NeuralNetwork3D = () => {
   }
 
   return (
-    <section id="neural-network" className="min-h-screen flex flex-col items-center px-4 py-10 relative overflow-hidden">
+    <section id="neural-network" className="min-h-screen hidden lg:flex flex-col items-center px-4 py-12 lg:py-20 relative overflow-hidden">
       {/* --- BACKGROUND EFFECTS (MATCHING ABOUT.JSX) --- */}
       {/* Separator line at top */}
       <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#00d9ff] via-highlight to-transparent opacity-75 blur-sm z-0" />
@@ -451,12 +451,12 @@ const NeuralNetwork3D = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex flex-col items-center md:items-start w-full">
-            <h2 className="text-3xl md:text-4xl font-bold mb-2 font-display text-center md:text-left">
+          <div className="flex flex-col items-center w-full">
+            <h2 className="text-3xl md:text-4xl font-bold mb-2 font-display text-center">
               <span className="text-text-primary text-text-primary">Neural Network </span>
               <span className="bg-gradient-to-r from-[#00d9ff] to-[#4dfffe] bg-clip-text text-transparent">Inspector</span>
             </h2>
-            <div className="flex items-center gap-1 text-text-primary text-text-primary justify-center md:justify-start">
+            <div className="flex items-center gap-1 text-text-primary text-text-primary justify-center">
               <Brain size={16} className="text-accent" />
               <span className="font-mono text-xs font-bold tracking-widest uppercase">Deep Learning Model Visualization</span>
             </div>
@@ -490,7 +490,7 @@ const NeuralNetwork3D = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="w-full lg:w-[320px] bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 space-y-4 lg:sticky top-6 order-2 lg:order-1"
+            className="w-full lg:w-[320px] bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 space-y-4 lg:sticky top-6 order-3 lg:order-1"
           >
             <div className="flex items-center gap-3 mb-4">
               <Layers className="text-accent" size={20} />
@@ -573,7 +573,7 @@ const NeuralNetwork3D = () => {
           </motion.aside>
 
           {/* Center: Visualization Canvas */}
-          <main className="flex-1 flex flex-col gap-4 min-w-0 relative order-1 lg:order-2 h-[400px] md:h-auto min-h-[500px]">
+          <main className="flex-1 flex flex-col gap-4 min-w-0 relative order-1 lg:order-2 h-[400px] sm:h-[500px] lg:h-auto lg:min-h-[600px]">
             <motion.div
               className={`relative bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 overflow-hidden shadow-2xl flex-1 ${isMouseOver ? 'ring-2 ring-accent/50' : ''}`}
               initial={{ opacity: 0, scale: 0.98 }}
@@ -582,33 +582,33 @@ const NeuralNetwork3D = () => {
             >
               <canvas
                 ref={canvasRef}
-                className="w-full h-[600px] lg:h-[700px] cursor-crosshair bg-transparent relative z-10"
+                className="w-full h-full absolute inset-0 cursor-crosshair bg-transparent z-10"
                 onMouseMove={handleMouseMove}
                 onMouseEnter={() => setIsMouseOver(true)}
                 onMouseLeave={() => setIsMouseOver(false)}
               />
 
               {/* Floating Canvas Controls */}
-              <div className="absolute top-16 right-4 flex gap-2 z-20">
-                <motion.button onClick={() => setIsTraining(!isTraining)} className={`flex items-center gap-2 px-4 py-2 rounded-xl border text-sm font-mono transition-all backdrop-blur-md ${isTraining ? 'bg-highlight/20 border-highlight/50 text-highlight text-highlight/70' : 'bg-gray-100/50 border-accent/50 text-gray-700 bg-surface/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                  {isTraining ? <><Pause size={14} /> STOP</> : <><Play size={14} /> TRAIN</>}
+              <div className="absolute top-4 right-4 flex gap-2 z-20">
+                <motion.button onClick={() => setIsTraining(!isTraining)} className={`flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-xl border text-xs md:text-sm font-mono transition-all backdrop-blur-md ${isTraining ? 'bg-highlight/20 border-highlight/50 text-highlight text-highlight/70' : 'bg-gray-100/50 border-accent/50 text-gray-700 bg-surface/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                  {isTraining ? <><Pause size={12} className="md:w-3.5 md:h-3.5" /> STOP</> : <><Play size={12} className="md:w-3.5 md:h-3.5" /> TRAIN</>}
                 </motion.button>
-                <motion.button onClick={() => setShowBinary(!showBinary)} className={`p-2 rounded-xl border transition-all backdrop-blur-md ${showBinary ? 'bg-accent/10 border-accent text-accent bg-accent/20 border-accent/50 text-highlight' : 'bg-gray-100/50 border-accent/50 text-gray-700 dark:bg-[#0a0a0a]/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }}>
-                  <Code2 size={16} />
+                <motion.button onClick={() => setShowBinary(!showBinary)} className={`p-1.5 md:p-2 rounded-xl border transition-all backdrop-blur-md ${showBinary ? 'bg-accent/10 border-accent text-accent bg-accent/20 border-accent/50 text-highlight' : 'bg-gray-100/50 border-accent/50 text-gray-700 dark:bg-[#0a0a0a]/50 border-surface text-text-primary'}`} whileHover={{ scale: 1.05 }}>
+                  <Code2 size={14} className="md:w-4 md:h-4" />
                 </motion.button>
               </div>
 
               {/* Legend */}
-              <div className="absolute bottom-6 left-6 flex gap-4 text-[10px] font-mono uppercase tracking-wider text-accent/60 text-highlight/60 pointer-events-none z-20">
-                <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-accent"></div> Input/Hidden</div>
-                <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-highlight"></div> Output Class</div>
-                <div className="flex items-center gap-2"><div className="w-2 h-2 rounded-full bg-surface"></div> Inactive</div>
+              <div className="absolute bottom-4 left-4 flex flex-wrap gap-3 text-[9px] md:text-[10px] font-mono uppercase tracking-wider text-accent/60 text-highlight/60 pointer-events-none z-20">
+                <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-accent"></div> Input/Hidden</div>
+                <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-highlight"></div> Output Class</div>
+                <div className="flex items-center gap-1.5"><div className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-surface"></div> Inactive</div>
               </div>
             </motion.div>
           </main>
 
           {/* Right Sidebar: Analytics */}
-          <aside className="w-full lg:w-[280px] flex flex-col gap-3 order-3">
+          <aside className="w-full lg:w-[280px] flex flex-col gap-3 order-2 lg:order-3">
             {/* Model Stats */}
             <div className="bg-white/50 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-accent border-accent/40 p-4 shadow-xl">
               <div className="flex items-center gap-2 text-accent text-highlight border-b border-accent/20 pb-3 mb-3">

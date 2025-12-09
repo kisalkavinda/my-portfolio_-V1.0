@@ -103,23 +103,6 @@ const Skills = () => {
           toggleActions: 'play none none none'
         }
       })
-
-      // Stats animation
-      if (statsRef.current) {
-        gsap.from(statsRef.current.children, {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          delay: 0.2,
-          stagger: 0.08,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: statsRef.current,
-            start: 'top 80%',
-            toggleActions: 'play none none none'
-          }
-        })
-      }
     }, sectionRef)
 
     return () => ctx.revert()

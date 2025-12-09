@@ -92,31 +92,32 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Dropdown */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="md:hidden absolute top-full left-0 w-full bg-background-main/95 backdrop-blur-xl border-t border-white/10 shadow-2xl"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
+            className="md:hidden absolute top-full left-0 w-full bg-background-main/95 backdrop-blur-xl border-b border-accent/20 shadow-2xl overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="p-4 flex flex-col gap-4">
+            <div className="flex flex-col p-6 gap-4">
               <Navigation
                 activeSection={activeSection}
-                className="flex flex-col w-full"
+                className="flex flex-col w-full gap-2 items-start"
                 onItemClick={() => setIsMenuOpen(false)}
               />
-              <button
+              <motion.button
                 onClick={() => {
-                  scrollTo('contact');
                   setIsMenuOpen(false);
+                  setTimeout(() => scrollTo('contact'), 100);
                 }}
-                className="w-full py-3 bg-accent text-black font-bold rounded-xl"
+                className="w-full py-3 mt-2 bg-accent/10 border border-accent text-accent font-bold rounded-xl hover:bg-accent hover:text-black transition-all"
+                whileTap={{ scale: 0.98 }}
               >
                 Let's Talk
-              </button>
+              </motion.button>
             </div>
           </motion.div>
         )}
