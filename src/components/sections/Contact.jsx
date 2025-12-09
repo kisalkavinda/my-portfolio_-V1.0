@@ -148,7 +148,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#00d9ff] transition-colors"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-text-primary placeholder-text-primary/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
                       placeholder="Your name"
                     />
                   </div>
@@ -167,7 +167,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#00d9ff] transition-colors"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-text-primary placeholder-text-primary/70 focus:outline-none focus:border-[#00d9ff] transition-colors"
                       placeholder="your@email.com"
                     />
                   </div>
@@ -186,7 +186,7 @@ const Contact = () => {
                       onChange={handleChange}
                       required
                       rows="5"
-                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-gray-900 dark:text-white placeholder-gray-500 focus:outline-none focus:border-[#00d9ff] transition-colors resize-none"
+                      className="w-full pl-12 pr-4 py-3 bg-white/5 border border-[#00d9ff]/20 rounded-lg text-text-primary placeholder-text-primary/70 focus:outline-none focus:border-[#00d9ff] transition-colors resize-none"
                       placeholder="Your message..."
                     />
                   </div>
