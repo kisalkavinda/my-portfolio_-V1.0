@@ -27,19 +27,13 @@ const Contact = () => {
       // IMPORTANT: For FormSubmit.co to work, you MUST verify your email after your first submission.
       // Replace personalInfo.email below with your actual verified FormSubmit.co endpoint if it's a unique hash,
       // otherwise, ensure the email in personalInfo.email matches your verified FormSubmit.co email.
-      const response = await fetch(`https://formsubmit.co/ajax/${personalInfo.email}`, {
+      const response = await fetch(`https://formspree.io/f/mldqwqqo`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          message: formData.message,
-          _subject: `New Portfolio Message from ${formData.name}`,
-          _template: 'table'
-        })
+        body: JSON.stringify(formData)
       })
 
       if (response.ok) {
