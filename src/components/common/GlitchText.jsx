@@ -1,36 +1,54 @@
-import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
-const GlitchText = ({ text, className, delay = 0, initial = {}, animate = {}, transition = {} }) => {
-  const [isGlitching, setIsGlitching] = useState(false);
+const GlitchText = ({ text, className = "" }) => {
+  const [displayText, setDisplayText] = useState('');
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
+
+  // Character set for the decoding effect
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^&*';
 
   useEffect(() => {
-    const glitchInterval = setInterval(() => {
-      if (Math.random() > 0.95) { // 5% chance to glitch every few seconds
-        setIsGlitching(true);
-        setTimeout(() => {
-          setIsGlitching(false);
-        }, Math.random() * 200 + 100); // Glitch duration between 100ms and 300ms
-      }
-    }, Math.random() * 3000 + 2000); // Check for glitch every 2-5 seconds
+    if (!isInView) return;
 
-    return () => clearInterval(glitchInterval);
-  }, []);
+    let iteration = 0;
+    const maxIterations = 3; // How many times each letter scrambles before settling
+    let interval = null;
+
+    interval = setInterval(() => {
+      setDisplayText(
+        text
+          .split('')
+          .map((char, index) => {
+            if (index < iteration) {
+              return text[index];
+            }
+            // Keep spaces as spaces
+            if (char === ' ') return ' ';
+
+            return chars[Math.floor(Math.random() * chars.length)];
+          })
+          .join('')
+      );
+
+      if (iteration >= text.length) {
+        clearInterval(interval);
+      }
+
+      iteration += 1 / 5; // Speed of decoding (lower = slower)
+    }, 50);
+
+    return () => clearInterval(interval);
+  }, [isInView, text]);
 
   return (
-    <motion.span
-      className={`${className} relative inline-block bg-gradient-to-r from-[#00d9ff] via-[#4dfffe] to-[#00d9ff] bg-clip-text text-transparent`}
-      initial={initial}
-      animate={animate}
-      transition={{ ...transition, delay: transition.delay || delay }} // Incorporate delay here
-      style={{
-        filter: isGlitching ? 'url(#glitch)' : 'none',
-        transition: 'filter 0.1s ease-in-out',
-        transform: isGlitching ? `translate(${Math.random() * 5 - 2.5}px, ${Math.random() * 5 - 2.5}px)` : 'none',
-      }}
+    <span
+      ref={ref}
+      className={`${className} inline-block bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent`}
     >
-      {text}
-    </motion.span>
+      {displayText || text}
+    </span>
   );
 };
 

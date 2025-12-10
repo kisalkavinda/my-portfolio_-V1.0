@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Github, Linkedin, TrendingUp, Star, GitFork, Code, Users, Activity } from 'lucide-react'
 import GitHubHeatmap from './GitHubHeatmap'; // Import GitHubHeatmap
+import GlitchText from '../common/GlitchText'
 
 const LiveStats = () => {
   const [githubData, setGithubData] = useState(null)
@@ -220,8 +221,8 @@ const LiveStats = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-display">
-            Live <span className="bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Stats</span>
+          <h2 className="relative text-4xl md:text-5xl font-bold mb-4 font-display">
+            Live <GlitchText text="Stats" />
           </h2>
           <p className="text-text-secondary max-w-2xl mx-auto">
             Real-time data from GitHub and LinkedIn

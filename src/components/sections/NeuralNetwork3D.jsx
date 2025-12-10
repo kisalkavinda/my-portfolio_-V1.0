@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { Brain, Pause, Play, Plus, Minus, Activity, Server, Code2, LineChart, Layers } from 'lucide-react'
+import GlitchText from '../common/GlitchText'
 
 const NeuralNetwork3D = () => {
   const canvasRef = useRef(null)
@@ -451,9 +452,9 @@ const NeuralNetwork3D = () => {
           transition={{ duration: 0.6 }}
         >
           <div className="flex flex-col items-center w-full">
-            <h2 className="text-3xl md:text-4xl font-bold mb-2 font-display text-center">
+            <h2 className="relative text-3xl md:text-4xl font-bold mb-2 font-display text-center">
               <span className="text-text-primary text-text-primary">Neural Network </span>
-              <span className="bg-gradient-to-r from-[#00d9ff] to-[#4dfffe] bg-clip-text text-transparent">Inspector</span>
+              <GlitchText text="Inspector" />
             </h2>
             <div className="flex items-center gap-1 text-text-primary text-text-primary justify-center">
               <Brain size={16} className="text-accent" />

@@ -9,10 +9,10 @@ import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 // Data Imports
 import { personalInfo } from '../../data/personalInfo'
 import { useScrollTo } from '../../hooks/useScrollTo'
-import GlitchText from '../common/GlitchText'
 import TextType from '../common/TextType'
 import { PDFDownloadLink } from '@react-pdf/renderer'
 import CVDocument from '../pdf/CVDocument'
+import MagneticButton from '../ui/MagneticButton'
 
 // Register GSAP ScrollTrigger
 gsap.registerPlugin(ScrollTrigger)
@@ -322,15 +322,13 @@ const Hero = () => {
             <motion.h1
               ref={nameRef}
               className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-1"
-              initial={{ opacity: 0, y: -30 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
             >
-              <GlitchText
-                text={personalInfo.name}
-                className="bg-gradient-to-r from-highlight via-accent to-highlight bg-clip-text text-transparent font-display"
-                delay={0.3}
-              />
+              <span className="bg-gradient-to-r from-highlight via-accent to-highlight bg-clip-text text-transparent font-display">
+                {personalInfo.name}
+              </span>
             </motion.h1>
 
             <div ref={roleRef} className="h-14 sm:h-16 md:h-20 mb-2 relative overflow-hidden">
@@ -360,16 +358,17 @@ const Hero = () => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8 }}
             >
-              <motion.button
+              <MagneticButton
                 onClick={() => scrollToSection('projects')}
-                className="group px-8 py-3 bg-[var(--accent)] rounded-lg font-semibold transition-all shadow-lg hover:shadow-[0_0_40px_rgba(var(--accent-rgb),0.8)] hover:bg-transparent border border-transparent hover:border-[var(--accent)]"
+                className="group px-8 py-3 bg-[var(--accent)] rounded-lg font-semibold transition-all shadow-lg hover:shadow-[0_0_40px_rgba(var(--accent-rgb),0.8)] hover:bg-transparent border border-transparent hover:border-[var(--accent)] text-black"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span className="flex items-center gap-2 text-black group-hover:text-[var(--accent)]">
+                <span className="flex items-center gap-2 group-hover:text-[var(--accent)]">
                   View Projects
                   <Code className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                </span>                                </motion.button>
+                </span>
+              </MagneticButton>
               <PDFDownloadLink
                 document={<CVDocument />}
                 fileName="Kisal_Kavinda_CV.pdf"

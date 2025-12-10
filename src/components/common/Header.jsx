@@ -5,6 +5,7 @@ import Navigation from './Navigation'
 import Logo from './Logo'
 import { useScrollSpy } from '../../hooks/useScrollSpy'
 import { useScrollTo } from '../../hooks/useScrollTo'
+import MagneticButton from '../ui/MagneticButton'
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -67,7 +68,7 @@ const Header = () => {
         <div className="flex items-center gap-2 sm:gap-4 justify-end"
         >
           {/* CTA Button */}
-          <motion.button
+          <MagneticButton
             onClick={() => scrollTo('contact')}
             className="hidden md:block px-6 py-2.5 bg-accent text-black font-semibold rounded-full text-sm shadow-[0_0_15px_rgba(0,217,255,0.3)] border border-accent/50"
             whileHover={{
@@ -78,7 +79,7 @@ const Header = () => {
             whileTap={{ scale: 0.95 }}
           >
             Let's Talk
-          </motion.button>
+          </MagneticButton>
 
           {/* Mobile Menu Button */}
           <motion.button

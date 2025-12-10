@@ -1,75 +1,91 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import GlitchText from './GlitchText';
+
+const messages = [
+  "INITIALIZING...",
+  "LOADING ASSETS...",
+  "ESTABLISHING CONNECTION...",
+  "WELCOME"
+];
 
 const Preloader = () => {
+  const [textIndex, setTextIndex] = useState(0);
+  const [displayText, setDisplayText] = useState("");
+
+  // Decoding effect
+  useEffect(() => {
+    const targetText = messages[textIndex];
+    let iterations = 0;
+    const interval = setInterval(() => {
+      setDisplayText(prev =>
+        targetText.split("")
+          .map((letter, index) => {
+            if (index < iterations) {
+              return targetText[index];
+            }
+            return "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()"[Math.floor(Math.random() * 36)];
+          })
+          .join("")
+      );
+
+      if (iterations >= targetText.length) {
+        clearInterval(interval);
+        // Move to next message
+        if (textIndex < messages.length - 1) {
+          setTimeout(() => setTextIndex(prev => prev + 1), 800);
+        }
+      }
+
+      iterations += 1 / 2; // Speed of decoding
+    }, 30);
+
+    return () => clearInterval(interval);
+  }, [textIndex]);
+
   const containerVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
+    visible: { opacity: 1 },
     exit: {
       opacity: 0,
       y: '-100vh',
-      transition: { duration: 0.5, ease: 'easeInOut' },
+      transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
     },
   };
-
-  const lineVariants = {
-    hidden: { scaleX: 0 },
-    visible: {
-      scaleX: 1,
-      transition: { duration: 0.5, ease: 'easeInOut' },
-    },
-  };
-  
-  const logoVariants = {
-      hidden: { opacity: 0, scale: 0.5 },
-      visible: {
-        opacity: 1,
-        scale: 1,
-        transition: { duration: 0.5, delay: 1 }
-      }
-  }
 
   return (
     <motion.div
-      className="fixed inset-0 z-[100] flex flex-col justify-center items-center bg-[#000000]"
+      className="fixed inset-0 z-[100] flex flex-col justify-center items-center bg-black"
       variants={containerVariants}
-      initial="hidden"
+      initial="visible"
       animate="visible"
       exit="exit"
     >
-      <div className="relative w-24 h-24 flex justify-center items-center">
-        {/* Central Logo */}
-        <motion.div
-          className="text-[#00d9ff] font-bold text-6xl"
-          variants={logoVariants}
-        >
-          K
-        </motion.div>
-        
-        {/* Animated Lines */}
-        {/* Horizontal */}
-      <div className="absolute top-0 left-0 w-full h-px bg-[#00d9ff]" />
-        <motion.div
-          className="absolute bottom-0 left-0 w-full h-px bg-[#00d9ff]"
-          variants={lineVariants}
-        />
-        {/* Vertical */}
-      <div className="absolute top-0 left-0 w-px h-full bg-[#00d9ff] origin-top" />
-      <div className="absolute top-0 right-0 w-px h-full bg-[#00d9ff] origin-top" />
+      <div className="relative mb-8">
+        {/* Central Logo with Glitch */}
+        <div className="relative w-32 h-32 flex justify-center items-center border border-accent/30 rounded-full bg-accent/5 backdrop-blur-sm">
+          <div className="absolute inset-0 rounded-full border-t border-accent animate-spin-slow" />
+          <GlitchText
+            text="K"
+            className="text-6xl font-bold font-display"
+            delay={1}
+          />
+        </div>
       </div>
-      <motion.p 
-        className="text-[#00d9ff] mt-4 text-sm tracking-widest"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5 }}
-      >
-        LOADING...
-      </motion.p>
+
+      <div className="h-6 font-mono text-accent/80 text-sm tracking-[0.2em] min-w-[200px] text-center">
+        {displayText}
+        <span className="animate-pulse">_</span>
+      </div>
+
+      {/* Loading bar */}
+      <div className="mt-8 w-64 h-1 bg-accent/20 rounded-full overflow-hidden">
+        <motion.div
+          className="h-full bg-accent box-shadow-[0_0_10px_var(--accent)]"
+          initial={{ width: "0%" }}
+          animate={{ width: "100%" }}
+          transition={{ duration: 3.5, ease: "easeInOut" }}
+        />
+      </div>
     </motion.div>
   );
 };

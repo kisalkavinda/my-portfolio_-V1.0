@@ -4,6 +4,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { skills } from '../../data/skills'
+import GlitchText from '../common/GlitchText'
+
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -245,8 +247,8 @@ const Skills = () => {
           ref={titleRef}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-6 font-display">
-            Tech <span className="bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Stack</span>
+          <h2 className="relative text-4xl md:text-5xl font-bold mb-6 font-display">
+            Tech <GlitchText text="Stack" />
           </h2>
           <p className="text-text-secondary text-lg max-w-2xl mx-auto">
             A comprehensive toolkit of technologies and frameworks I leverage to build innovative solutions

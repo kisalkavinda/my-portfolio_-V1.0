@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { Mail, Github, Linkedin, MapPin, Send, User, MessageSquare, Facebook } from 'lucide-react'
 import { personalInfo } from '../../data/personalInfo'
 import Swal from 'sweetalert2'
+import GlitchText from '../common/GlitchText'
+
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -110,13 +112,13 @@ const Contact = () => {
       <div className="absolute inset-0 pointer-events-none z-0 dark:bg-gradient-to-b dark:from-transparent dark:via-black/25 dark:to-black/55" />
       <div className="max-w-6xl mx-auto w-full relative z-10">
         <motion.h2
-          className="text-4xl md:text-5xl font-bold mb-12 text-center font-display"
+          className="relative text-4xl md:text-5xl font-bold mb-12 text-center font-display"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          Get In <span className="text-[#00d9ff]">Touch</span>
+          Get In <GlitchText text="Touch" />
         </motion.h2>
 
         <div className="grid md:grid-cols-2 gap-8">

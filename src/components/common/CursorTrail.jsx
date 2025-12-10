@@ -27,42 +27,43 @@ const CursorTrail = () => {
   const trailColor = '#4dfffe'; // Highlight color
 
   useEffect(() => {
-    const addParticle = (e) => {
-      setParticles((prev) => [
-        ...prev,
-        {
-          id: `${Date.now()}-${particleId.current++}`, // Combine Date.now() with an incrementing ref
-          x: e.clientX - 10,
-          y: e.clientY - 10,
-          color: trailColor,
-        },
-      ]);
-    };
-
-    const throttledAddParticle = (e) => {
-      // Add a particle every 50ms
+    const mouseMove = (e) => {
+      // Throttle trail creation
       const now = Date.now();
       if (now - (window.lastParticleTime || 0) > 50) {
-        addParticle(e);
+        setParticles((prev) => [
+          ...prev,
+          {
+            id: `${now}-${particleId.current++}`,
+            x: e.clientX - 10,
+            y: e.clientY - 10,
+            color: trailColor,
+          },
+        ]);
         window.lastParticleTime = now;
       }
     };
 
-    window.addEventListener('mousemove', throttledAddParticle);
+    window.addEventListener("mousemove", mouseMove);
 
-    return () => window.removeEventListener('mousemove', throttledAddParticle);
+    return () => {
+      window.removeEventListener("mousemove", mouseMove);
+    };
   }, [trailColor]);
 
   useEffect(() => {
     // Clean up old particles
     const interval = setInterval(() => {
-      setParticles((prev) => prev.filter((p) => Date.now() - p.id < 1200));
+      setParticles((prev) => prev.filter((p) => Date.now() - parseInt(p.id.split('-')[0]) < 1000));
     }, 500);
     return () => clearInterval(interval);
   }, []);
 
+
+
   return (
     <AnimatePresence>
+
       {particles.map((p) => (
         <TrailParticle key={p.id} {...p} />
       ))}

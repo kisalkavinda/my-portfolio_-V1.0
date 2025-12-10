@@ -1,43 +1,24 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { motion } from 'framer-motion'
+import React, { useRef } from 'react'
+import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import { Calendar, Award, BookOpen, Code, Briefcase, Rocket } from 'lucide-react'
+import GlitchText from '../common/GlitchText'
 
 import { timelineEvents } from '../../data/timeline'
 
 const Timeline = () => {
-  const [lineHeight, setLineHeight] = useState(0)
   const timelineRef = useRef(null)
-  const lineRef = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: timelineRef,
+    offset: ["start end", "end end"]
+  });
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!timelineRef.current || !lineRef.current) return
+  const scrollHeight = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
-      const rect = timelineRef.current.getBoundingClientRect()
-      const timelineTop = rect.top + window.scrollY
-      const timelineHeight = rect.height
-      const windowHeight = window.innerHeight
-
-      // Start animating when timeline enters viewport
-      const scrollPosition = window.scrollY + windowHeight
-      const relativeScroll = scrollPosition - timelineTop
-
-      // Calculate percentage - starts at 0 when timeline enters viewport
-      const scrollPercentage = Math.max(0, Math.min(100, (relativeScroll / (timelineHeight + windowHeight * 0.5)) * 100))
-      setLineHeight(scrollPercentage)
-    }
-
-    // Initial calculation
-    handleScroll()
-
-    window.addEventListener('scroll', handleScroll)
-    window.addEventListener('resize', handleScroll)
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      window.removeEventListener('resize', handleScroll)
-    }
-  }, [])
+  const height = useTransform(scrollHeight, [0, 1], ["0%", "100%"]);
 
   return (
     <section id="timeline" className="py-20 px-4 relative overflow-hidden">
@@ -69,8 +50,8 @@ const Timeline = () => {
             <Calendar size={48} className="text-accent" />
           </motion.div>
 
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 font-heading">
-            My <span className="bg-gradient-to-r from-accent to-highlight bg-clip-text text-transparent">Journey</span>
+          <h2 className="relative text-4xl md:text-5xl font-bold mb-4 font-heading">
+            My <GlitchText text="Journey" />
           </h2>
           <p className="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
             From first line of code to ML engineer in the making
@@ -83,16 +64,16 @@ const Timeline = () => {
           <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-accent/20 via-highlight/20 to-accent/20 hidden md:block" />
 
           {/* Central Line - Animated (grows with scroll) */}
-          <div
-            ref={lineRef}
-            className="absolute left-1/2 transform -translate-x-1/2 w-1.5 bg-gradient-to-b from-accent via-highlight to-accent hidden md:block transition-all duration-300 ease-out shadow-[0_0_20px_rgba(124,58,237,0.6)]"
-            style={{ height: `${lineHeight}%` }}
+          {/* Central Line - Animated (grows with scroll) */}
+          <motion.div
+            className="absolute left-1/2 transform -translate-x-1/2 w-1.5 bg-gradient-to-b from-accent via-highlight to-accent hidden md:block shadow-[0_0_20px_rgba(124,58,237,0.6)]"
+            style={{ height }}
           />
 
           {/* Animated Droplet at the end of the line */}
-          <div
-            className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-accent to-highlight rounded-full hidden md:block transition-all duration-300 ease-out shadow-[0_0_25px_rgba(124,58,237,0.8)] animate-pulse"
-            style={{ top: `${lineHeight}%` }}
+          <motion.div
+            className="absolute left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4 h-4 bg-gradient-to-br from-accent to-highlight rounded-full hidden md:block shadow-[0_0_25px_rgba(124,58,237,0.8)] animate-pulse"
+            style={{ top: height }}
           />
 
           {/* Timeline Events */}

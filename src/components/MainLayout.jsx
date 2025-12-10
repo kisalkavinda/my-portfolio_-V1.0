@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import DigitalRainBackground from './common/DigitalRainBackground';
+
 import CursorTrail from './common/CursorTrail';
 
 import Header from './common/Header';

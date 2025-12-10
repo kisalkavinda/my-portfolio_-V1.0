@@ -6,6 +6,8 @@ import { projects, projectCategories } from '../../data/projects'
 import ProjectCard from '../ui/ProjectCard'
 import ProjectDetailsModal from '../ui/ProjectDetailsModal'
 import SearchBar from '../ui/SearchBar'
+import GlitchText from '../common/GlitchText'
+
 import SortDropdown from '../ui/SortDropdown'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -121,9 +123,9 @@ const Projects = () => {
       <div className="relative z-10 w-full max-w-6xl">
         <h2
           ref={titleRef}
-          className="text-4xl md:text-5xl font-bold mb-12 text-center font-display"
+          className="relative text-4xl md:text-5xl font-bold mb-12 text-center font-display"
         >
-          My <span className="text-accent">Projects</span>
+          My <GlitchText text="Projects" />
         </h2>
 
         {/* Search and Sort Toolbar */}
