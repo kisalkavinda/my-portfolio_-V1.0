@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Tilt } from 'react-tilt'
 import { Award, Calendar, ZoomIn } from 'lucide-react'
 import CertificateModal from '../ui/CertificateModal'
 import { certificates } from '../../data/certificates'
@@ -22,16 +21,8 @@ const CertificateCard = ({ certificate, index, onViewClick }) => {
       }}
       className="h-full"
     >
-      <Tilt
-        options={{
-          max: 15,
-          scale: 1.05,
-          speed: 1000,
-          glare: true,
-          "max-glare": 0.5,
-        }}
-        className="group relative bg-surface/50 backdrop-blur-sm rounded-xl p-6 border-2 border-[#00d9ff]/40 hover:border-[#00d9ff]/50 transition-all overflow-hidden flex flex-col h-full transform-style-3d"
-        style={{ transformStyle: 'preserve-3d' }}
+      <div
+        className="group relative bg-surface/50 backdrop-blur-sm rounded-xl p-6 border-2 border-[#00d9ff]/40 hover:border-[#00d9ff]/50 transition-all overflow-hidden flex flex-col h-full"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-accent/0 to-highlight/0 group-hover:from-accent/5 group-hover:to-highlight/5 transition-all duration-500" />
 
@@ -88,7 +79,7 @@ const CertificateCard = ({ certificate, index, onViewClick }) => {
             View Certificate
           </motion.button>
         </div>
-      </Tilt>
+      </div>
     </motion.div>
   )
 }
