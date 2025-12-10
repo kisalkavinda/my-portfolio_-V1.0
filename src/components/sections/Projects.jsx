@@ -131,7 +131,7 @@ const Projects = () => {
         {/* Search and Sort Toolbar */}
         <div
           ref={toolbarRef}
-          className="flex flex-col md:flex-row gap-4 mb-8 w-full items-center justify-between"
+          className="relative z-20 flex flex-col md:flex-row gap-4 mb-8 w-full items-center justify-between"
         >
           <SearchBar onSearch={handleSearch} placeholder="Search projects..." />
           <SortDropdown onSort={setSortBy} currentSort={sortBy} />
@@ -162,7 +162,7 @@ const Projects = () => {
           {processedProjects.length > 0 ? (
             <motion.div
               key="projects-grid"
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full"
+              className="relative z-0 grid md:grid-cols-2 lg:grid-cols-3 gap-8 w-full"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}

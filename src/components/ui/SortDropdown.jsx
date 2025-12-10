@@ -61,7 +61,7 @@ const SortDropdown = ({ onSort, currentSort = 'newest' }) => {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: -10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full mt-2 right-0 w-48 bg-surface/95 backdrop-blur-md border-2 border-accent/30 rounded-lg overflow-hidden shadow-lg z-50"
+                        className="absolute top-full mt-2 right-0 w-48 bg-surface/95 backdrop-blur-md border-2 border-accent/30 rounded-lg overflow-hidden shadow-lg z-[100]"
                         style={{
                             boxShadow: '0 10px 40px var(--accent-40)'
                         }}
@@ -71,8 +71,8 @@ const SortDropdown = ({ onSort, currentSort = 'newest' }) => {
                                 key={option.value}
                                 onClick={() => handleSelect(option.value)}
                                 className={`w-full px-4 py-3 text-left text-sm flex items-center justify-between transition-colors ${currentSort === option.value
-                                        ? 'bg-accent/20 text-accent'
-                                        : 'text-text-primary hover:bg-accent/10'
+                                    ? 'bg-accent/20 text-accent'
+                                    : 'text-text-primary hover:bg-accent/10'
                                     }`}
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
