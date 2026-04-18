@@ -6,7 +6,7 @@
 
 Professional portfolio website showcasing my journey as a Computer Engineering student specializing in **Machine Learning**, **IoT Development**, and **Full-Stack Web Development**. This portfolio demonstrates my technical skills, academic achievements, and passion for AI technologies.
 
-**Live Site:** [https://kisalkavinda.github.io/my-portfolio/](https://my-portfolio-v1-0-dusky.vercel.app/)
+**Live Site:** [Visti My Portfolio Webiste](https://my-portfolio-v1-0-dusky.vercel.app/)
 
 ---
 
